@@ -1,7 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backend\Admin\UserController;
+use App\Http\Controllers\Backend\Admin\AdminAuthController;
+use App\Http\Controllers\Backend\Admin\DashboardController;
+use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
+use App\Http\Controllers\Fronted\Customer\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,22 +17,28 @@ use App\Http\Controllers\Backend\Admin\UserController;
 |
 */
 
+// admin
+route::prefix('admin')->group(function () {
+    // login
+    Route::get('login', [AdminAuthController::class, 'login'])->name('admin.login')->middleware('auth.admin.login');
+    Route::post('login', [AdminAuthController::class, 'authLogin'])->name('admin.authLogin');
 
+    // logout
+    Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// Route cho user chưa login
-Route::middleware('require.login')->group(function () {
-    Route::get('login', [UserController::class, 'login'])->name('user.login');
-    Route::post('login', [UserController::class, 'authUser'])->name('user.authUser');
+    // dashboard
+    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard')->middleware('require.admin.login');
 });
 
+// Customer 
+Route::prefix('/')->group(function () {
+    // login
+    Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('auth.customer.login');
+    Route::post('login', [CustomerAuthController::class, 'authLogin'])->name('customer.authLogin');
 
-// Route cho user đã login
-Route::middleware('check.login')->group(function () {
-    Route::get('dashboard', [UserController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('logout', [UserController::class, 'logout'])->name('user.logout');
-});
+    // logout
+    Route::post('logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 
-
-Route::get('/', function () {
-    return view('welcome');
+    // home
+    Route::get('/', [HomeController::class, 'index'])->name('customer.index');
 });

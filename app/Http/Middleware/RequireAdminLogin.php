@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class CheckLogin
+class RequireAdminLogin
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class CheckLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::id() == null) {
-            return redirect()->route('user.login')->withErrors('Vui lòng đăng nhập');
+        if (!Auth::check()) {
+            return redirect()->route('admin.login')->withErrors('Vui lòng đăng nhập để truy cập trang quản trị!');
         }
         return $next($request);
     }

@@ -1,7 +1,7 @@
-@extends('backend.admin')
+@extends('backend.layouts.admin')
 
 @section('content')
-    <h2>Chào mừng bạn đến với Trang Quản Trị</h2>
+    <h2 class="text-dark">Chào mừng bạn đến với Trang Quản Trị</h2>
     <div class="row">
         <div class="col-md-3">
             <div class="card bg-primary text-white">

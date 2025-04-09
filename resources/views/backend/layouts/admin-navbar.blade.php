@@ -13,11 +13,22 @@
                            <i class="fas fa-user"></i> Tài khoản
                        </a>
                        <ul class="dropdown-menu dropdown-menu-end">
-                           <li><a class="dropdown-item" href="#">Thông tin cá nhân</a></li>
                            <li>
-                               <a class="dropdown-item text-danger" href="{{ route('user.logout') }}">
-                                   <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                               <a class="dropdown-item" href="#">
+                                   <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->name }}
                                </a>
+                           </li>
+                           <li>
+                               <hr class="dropdown-divider">
+                           </li>
+                           <li>
+                               <form action="{{ route('admin.logout') }}" method="POST"
+                                   onsubmit="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
+                                   @csrf
+                                   <button type="submit" class="dropdown-item">
+                                       <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
+                                   </button>
+                               </form>
                            </li>
                        </ul>
                    </li>

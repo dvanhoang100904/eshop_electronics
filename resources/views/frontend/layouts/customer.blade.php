@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title', 'Trang Quản Trị')</title>
+    <title>@yield('title', 'Trang Chủ')</title>
 
     <!-- Nhúng style bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -17,31 +17,30 @@
 
     <!-- Google fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
     {{-- My style --}}
-    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/customer-style.css') }}">
 </head>
 
 <body>
+    {{-- Header --}}
+    @include('frontend.layouts.customer-header')
 
     {{-- Navbar --}}
-    @include('backend.admin-navbar')
+    @include('frontend.layouts.customer-navbar')
 
-    <div class="d-flex">
-        {{-- Sidebar --}}
-        @include('backend.admin-sidebar')
-
-        {{-- Main content --}}
-        <main class="flex-grow-1 p-4 bg-light">
-            @yield('content')
-        </main>
-    </div>
+    {{-- Main Content --}}
+    <main class="py-4">
+        @yield('content')
+    </main>
 
     {{-- Footer --}}
-    <footer class="bg-dark text-white text-center py-3">
-        Copyright © 2025 Admin Dashboard.
-    </footer>
+    @include('frontend.layouts.customer-footer')
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Nhúng js bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>

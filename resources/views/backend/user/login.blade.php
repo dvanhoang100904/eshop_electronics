@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title', 'Đăng Nhập')</title>
+    <title>@yield('title', 'Đăng Nhập Quản Trị')</title>
     <!-- Favicon -->
     <link rel="icon" href="./images/logo.png" type="image/png" />
 
@@ -21,12 +21,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
 
     {{-- My style --}}
-    <link rel="stylesheet" href="{{ asset('css/customer-style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
 
 </head>
 
 <body>
-
     <!-- main -->
     <main>
         <div class="container py-5">
@@ -37,43 +36,46 @@
                             <h3 class="text-center font-weight-light my-4">Đăng Nhập</h3>
                         </div>
                         <div class="card-body">
-                            <form method="POST" role="form" action="{{ route('user.authUser') }}">
+                            @if (session('success'))
+                                <div class="alert alert-success">{{ session('success') }}</div>
+                            @endif
+
+                            <form method="POST" role="form" action="{{ route('admin.authLogin') }}">
                                 @csrf
+                                {{-- email --}}
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="email" type="email" name="email"
-                                        placeholder="Email" value="{{ old('email') }}" />
+                                        placeholder="Email" value="{{ old('email') }}" autofocus />
                                     <label for="email">Email </label>
                                 </div>
                                 @if ($errors->has('email'))
-                                    <span class="text-danger"{{ $errors->first('email') }}></span>
+                                    <span class="text-danger">{{ $errors->first('email') }}</span>
                                 @endif
+
+                                {{-- password --}}
                                 <div class="form-floating mb-3">
                                     <input class="form-control" id="password" type="password" name="password"
                                         placeholder="Password" />
                                     <label for="password">Password</label>
                                 </div>
                                 @if ($errors->has('password'))
-                                    <span class="text-danger"{{ $errors->first('password') }}></span>
+                                    <span class="text-danger"> {{ $errors->first('password') }}</span>
                                 @endif
+
                                 <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
-                                    <a class="small text-dark text-decoration-none me-3" href="#!">Quên mật
+                                    <a href="#!" class="small text-light text-decoration-none me-3"
+                                        href="#!">Quên mật
                                         khẩu?</a>
                                     <button type="submit" class="btn btn-danger">Đăng
                                         nhập</button>
                                 </div>
                             </form>
                         </div>
-                        <div class="card-footer text-center py-3">
-                            <div class="small">
-                                <a class="text-dark text-decoration-none" href="register.html">Tạo tài khoản!</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-
 
     <!-- Nhúng js bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

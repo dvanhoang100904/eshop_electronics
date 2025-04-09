@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class RequireLogin
+class RequireCustomerLogin
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class RequireLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::id() > 0) {
-            return redirect()->route('admin.dashboard');
+        if (!Auth::check()) {
+            return redirect()->route('customer.login')->withErrors('Vui lòng đăng nhập');
         }
         return $next($request);
     }
