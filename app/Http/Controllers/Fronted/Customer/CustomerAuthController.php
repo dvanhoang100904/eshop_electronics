@@ -19,6 +19,10 @@ class CustomerAuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            if (Auth::user()->role_id === 1) {
+                Auth::logout();
+                return redirect()->route('customer.login')->withErrors('Bạn không có quyền truy cập trang khách hàng.');
+            }
             return redirect()->route('customer.index')->with('success', 'Đăng nhập thành công');
         }
 

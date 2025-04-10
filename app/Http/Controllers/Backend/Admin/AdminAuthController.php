@@ -19,6 +19,11 @@ class AdminAuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            if (Auth::user()->role_id !== 1) {
+                Auth::logout();
+                return redirect()->route('admin.login')->withErrors('Bạn không có quyền truy cập.');
+            }
+
             return redirect()->route('admin.dashboard')->with('success ', 'Đăng nhập thành công');
         }
         return redirect()->route('admin.login')->withErrors('Email hoặc Mật khẩu không chính xác');

@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminAuthController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
+
 use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,7 @@ use App\Http\Controllers\Fronted\Customer\HomeController;
 // admin
 route::prefix('admin')->group(function () {
     // login
-    Route::get('login', [AdminAuthController::class, 'login'])->name('admin.login')->middleware('auth.admin.login');
+    Route::get('login', [AdminAuthController::class, 'login'])->name('admin.login')->middleware('redirectIf.admin.auth');
     Route::post('login', [AdminAuthController::class, 'authLogin'])->name('admin.authLogin');
 
     // logout
@@ -33,7 +35,7 @@ route::prefix('admin')->group(function () {
 // Customer 
 Route::prefix('/')->group(function () {
     // login
-    Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('auth.customer.login');
+    Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('redirectIf.customer.auth');
     Route::post('login', [CustomerAuthController::class, 'authLogin'])->name('customer.authLogin');
 
     // logout
