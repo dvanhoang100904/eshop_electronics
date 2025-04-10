@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+
         User::create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
@@ -22,10 +23,10 @@ class UserSeeder extends Seeder
             'phone' => '0123456789',
         ]);
 
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 30; $i++) {
             User::create([
-                'name' => 'User ' . $i,
-                'email' => 'user' . $i . '@gmail.com',
+                'name' => 'Customer ' . $i,
+                'email' => 'Customer' . $i . '@gmail.com',
                 'password' => Hash::make('123456'),
                 'role_id' => 2,
                 'phone' => '09876543' . $i,
