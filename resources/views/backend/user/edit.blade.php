@@ -6,42 +6,49 @@
             <div class="col">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a class="text-decoration-none text-dark"
-                                href="{{ route('user.index') }}?page={{ request()->get('page') }}">Người Dùng</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Thêm</li>
+                        <li class="breadcrumb-item">
+                            <a class="text-decoration-none text-dark"
+                                href="{{ route('user.index') }}?page={{ request()->get('page') }}">
+                                Người Dùng
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Chỉnh Sửa #{{ $user->user_id }}
+                        </li>
                     </ol>
                 </nav>
-                <h2 class="fw-bold mb-0">Tạo Người Dùng Mới</h2>
+                <h2 class="fw-bold mb-0">Cập Nhật Người Dùng</h2>
             </div>
         </div>
 
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <form action="{{ route('user.store') }}?page={{ request()->get('page') }}" method="POST"
+                <form action="{{ route('user.update', $user->user_id) }}?page={{ request()->get('page') }}" method="POST"
                     class="card shadow">
+                    @csrf
+                    @method('PUT')
+
                     <div class="card-header bg-primary text-white">
                         <h5 class="card-title mb-0">Thông Tin Người Dùng</h5>
                     </div>
-                    <div class="card-body p-4">
-                        @csrf
 
-                        {{-- Họ tên --}}
+                    <div class="card-body p-4">
+                        {{-- Name --}}
                         <div class="mb-4">
-                            <label for="name" class="form-label fw-bold">Họ tên <span
+                            <label for="name" class="form-label fw-bold">Họ Tên <span
                                     class="text-danger">*</span></label>
                             <input type="text" name="name" id="name" class="form-control form-control-lg"
-                                required placeholder="Nhập họ tên" value="{{ old('name') }}">
+                                value="{{ old('name', $user->name) }}" required />
                             @error('name')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        {{-- Số điện thoại --}}
+                        {{-- Phone --}}
                         <div class="mb-4">
-                            <label for="phone" class="form-label fw-bold">Số điện thoại</label>
+                            <label for="phone" class="form-label fw-bold">Số Điện Thoại</label>
                             <input type="text" name="phone" id="phone" class="form-control form-control-lg"
-                                required placeholder="Nhập số điện thoại" pattern="[0-9]{10,12}"
-                                value="{{ old('phone') }}">
+                                value="{{ old('phone', $user->phone) }}" required />
                             @error('phone')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -52,7 +59,7 @@
                             <label for="email" class="form-label fw-bold">Email <span
                                     class="text-danger">*</span></label>
                             <input type="email" name="email" id="email" class="form-control form-control-lg"
-                                required placeholder="Nhập email" value="{{ old('email') }}">
+                                value="{{ old('email', $user->email) }}" required />
                             @error('email')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -60,34 +67,32 @@
 
                         {{-- Password --}}
                         <div class="mb-4">
-                            <label for="password" class="form-label fw-bold">Mật khẩu <span
-                                    class="text-danger">*</span></label>
+                            <label for="password" class="form-label fw-bold">Mật Khẩu</label>
                             <input type="password" name="password" id="password" class="form-control form-control-lg"
-                                required placeholder="Nhập mật khẩu">
+                                placeholder="Nhập mật khẩu mới nếu muốn đổi" />
                             @error('password')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        {{-- Xác nhận Password --}}
+                        {{-- Password Confirmation --}}
                         <div class="mb-4">
-                            <label for="password_confirmation" class="form-label fw-bold">Xác nhận mật khẩu <span
-                                    class="text-danger">*</span></label>
+                            <label for="password_confirmation" class="form-label fw-bold">Xác Nhận Mật Khẩu</label>
                             <input type="password" name="password_confirmation" id="password_confirmation"
-                                class="form-control form-control-lg" required placeholder="Nhập lại mật khẩu">
+                                class="form-control form-control-lg" placeholder="Nhập lại mật khẩu" />
                             @error('password_confirmation')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        {{-- Vai trò --}}
+                        {{-- Role --}}
                         <div class="mb-4">
-                            <label for="role_id" class="form-label fw-bold">Vai trò <span
+                            <label for="role_id" class="form-label fw-bold">Vai Trò <span
                                     class="text-danger">*</span></label>
                             <select name="role_id" id="role_id" class="form-select form-select-lg" required>
                                 @foreach ($roles as $role)
                                     <option value="{{ $role->role_id }}"
-                                        {{ old('role_id') == $role->role_id ? 'selected' : '' }}>
+                                        {{ old('role_id', $user->role_id) == $role->role_id ? 'selected' : '' }}>
                                         {{ $role->name }}
                                     </option>
                                 @endforeach
@@ -96,13 +101,12 @@
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
-
                     </div>
 
                     <div class="card-footer bg-light d-flex justify-content-between">
                         <a href="{{ route('user.index') }}?page={{ request()->get('page') }}"
                             class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-2"></i> Quay lại
+                            <i class="fas fa-arrow-left me-2"></i> Quay Lại
                         </a>
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-save me-2"></i> Lưu

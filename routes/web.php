@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminAuthController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\UserController;
+use App\Http\Controllers\Backend\Admin\ProductController;
 
 use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
@@ -35,7 +36,7 @@ route::prefix('admin')->group(function () {
     // CRUD Users
     Route::middleware('require.admin.login')->group(function () {
         // index
-        Route::get('users', [UserController::class, 'index'])->name('user.list');
+        Route::get('users', [UserController::class, 'index'])->name('user.index');
         // create
         Route::get('users/create', [UserController::class, 'create'])->name('user.create');
         Route::post('users', [UserController::class, 'store'])->name('user.store');
@@ -46,6 +47,22 @@ route::prefix('admin')->group(function () {
         Route::put('users/{user_id}', [UserController::class, 'update'])->name('user.update');
         // delete
         Route::delete('users/{user_id}', [UserController::class, 'destroy'])->name('user.destroy');
+    });
+
+    // CRUD Products
+    Route::middleware('require.admin.login')->group(function () {
+        // index
+        Route::get('products', [ProductController::class, 'index'])->name('product.index');
+        // create
+        Route::get('products/create', [ProductController::class, 'create'])->name('product.create');
+        Route::post('products', [ProductController::class, 'store'])->name('product.store');
+        // show
+        Route::get('products/{product_id}', [ProductController::class, 'show'])->name('product.show');
+        // edit
+        Route::get('products/{product_id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+        Route::put('products/{product_id}', [ProductController::class, 'update'])->name('product.update');
+        // delete
+        Route::delete('products/{product_id}', [ProductController::class, 'destroy'])->name('product.destroy');
     });
 });
 

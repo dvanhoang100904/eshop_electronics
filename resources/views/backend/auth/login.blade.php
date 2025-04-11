@@ -5,8 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@yield('title', 'Đăng Nhập Quản Trị')</title>
+
     <!-- Favicon -->
-    <link rel="icon" href="./images/logo.png" type="image/png" />
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
     <!-- Nhúng style bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -17,11 +18,13 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- Google fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet" />
 
     {{-- My style --}}
-    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/admin-style.css') }}">
 
 </head>
 
@@ -97,8 +100,21 @@
         </div>
     </main>
 
-    {{-- my js --}}
-    <script src="{{ asset('js/admin.js') }}"></script>
+    <script>
+        // Toggle password visibility
+        document.querySelectorAll(".toggle-password").forEach((button) => {
+            button.addEventListener("click", function() {
+                const passwordInput = this.parentElement.querySelector("input");
+                const type =
+                    passwordInput.getAttribute("type") === "password" ?
+                    "text" :
+                    "password";
+                passwordInput.setAttribute("type", type);
+                this.querySelector("i").classList.toggle("fa-eye");
+                this.querySelector("i").classList.toggle("fa-eye-slash");
+            });
+        });
+    </script>
 
     <!-- Nhúng js bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
