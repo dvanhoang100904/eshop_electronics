@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Admin\AdminAuthController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\UserController;
 use App\Http\Controllers\Backend\Admin\ProductController;
+use App\Http\Controllers\Backend\Admin\CategoryController;
 
 use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
@@ -31,7 +32,7 @@ route::prefix('admin')->group(function () {
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
     // dashboard
-    Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('admin.dashboard')->middleware('require.admin.login');
+    Route::get('/', [DashboardController::class, 'dashboard'])->name('admin.dashboard')->middleware('require.admin.login');
 
     // CRUD Users
     Route::middleware('require.admin.login')->group(function () {
@@ -63,6 +64,23 @@ route::prefix('admin')->group(function () {
         Route::put('products/{product_id}', [ProductController::class, 'update'])->name('product.update');
         // delete
         Route::delete('products/{product_id}', [ProductController::class, 'destroy'])->name('product.destroy');
+    });
+
+
+    // CRUD Categories
+    Route::middleware('require.admin.login')->group(function () {
+        // index
+        Route::get('categories', [CategoryController::class, 'index'])->name('category.index');
+        // create
+        Route::get('categories/create', [CategoryController::class, 'create'])->name('category.create');
+        Route::post('categories', [CategoryController::class, 'store'])->name('category.store');
+        // show
+        Route::get('categories/{category_id}', [CategoryController::class, 'show'])->name('category.show');
+        // edit
+        Route::get('categories/{category_id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
+        Route::put('categories/{category_id}', [CategoryController::class, 'update'])->name('category.update');
+        // delete
+        Route::delete('categories/{category_id}', [CategoryController::class, 'destroy'])->name('category.destroy');
     });
 });
 
