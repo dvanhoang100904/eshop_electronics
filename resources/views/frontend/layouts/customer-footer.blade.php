@@ -6,7 +6,7 @@
             <div class="col-lg-3 col-md-6">
                 <div class="mb-4">
                     <a href="#" class="d-flex align-items-center mb-3 text-decoration-none">
-                        <span class="fs-5 fw-bold text-white">Group G</span>
+                        <span class="fs-5 fw-bold text-white">Eshop</span>
                     </a>
                     <p class="text-white-50">
                         Chuyên cung cấp sản phẩm công nghệ chính hãng với giá tốt nhất

@@ -24,7 +24,7 @@ class AdminAuthController extends Controller
                 return redirect()->route('admin.login')->withErrors('Bạn không có quyền truy cập.');
             }
 
-            return redirect()->route('admin.dashboard')->with('success ', 'Đăng nhập thành công');
+            return redirect()->route('admin.dashboard')->with('success', 'Đăng nhập thành công');
         }
         return redirect()->route('admin.login')->withErrors('Email hoặc Mật khẩu không chính xác');
     }

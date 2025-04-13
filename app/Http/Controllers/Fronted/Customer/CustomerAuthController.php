@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Fronted\Customer;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerAuthController extends Controller
 {
@@ -27,6 +30,25 @@ class CustomerAuthController extends Controller
         }
 
         return redirect()->route('customer.login')->withErrors('Email hoặc Mật khẩu không chính xác');
+    }
+
+    public function register()
+    {
+        return view('frontend.pages.register');
+    }
+
+    public function authRegister(RegisterRequest $request)
+    {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'role_id' => 2
+        ]);
+
+        Auth::login($user);
+        return redirect()->route('customer.index')->with('success', 'Chào mừng bạn, ' . $user->name . '! Đăng ký thành công.');
     }
 
     public function logout(Request $request)

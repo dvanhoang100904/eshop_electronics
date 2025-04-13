@@ -7,7 +7,7 @@
                  <!-- Logo -->
                  <div class="col-lg-2 col-sm-4 col-4">
                      <a href="./index.html" class="float-start">
-                         <img src="./images/logo.png" height="40" alt="Group G Store" />
+                         <img src="./images/logo.png" height="40" alt="Logo" />
                      </a>
                  </div>
 
@@ -61,7 +61,7 @@
                                              </a>
                                          </li>
                                          <li>
-                                             <a class="dropdown-item" href="./register.html">
+                                             <a class="dropdown-item" href="{{ route('customer.register') }}">
                                                  <i class="fas fa-user-plus me-2"></i>Đăng Ký
                                              </a>
                                          </li>
@@ -73,7 +73,7 @@
                                          </a>
                                      </li>
                                      <li>
-                                         <a class="dropdown-item" href="./register.html">
+                                         <a class="dropdown-item" href="{{ route('customer.register') }}">
                                              <i class="fas fa-user-plus me-2"></i>Đăng Ký
                                          </a>
                                      </li>
