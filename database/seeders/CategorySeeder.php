@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Category;
+use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
@@ -15,12 +16,14 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             ['name' => 'Điện thoại, Tablet', 'description' => 'Các mẫu điện thoại thông minh', 'image' => 'phones.jpg'],
-            ['name' => 'Laptop',     'description' => 'Máy tính xách tay',       'image' => 'laptops.jpg'],
-            ['name' => 'Phụ kiện',   'description' => 'Phụ kiện công nghệ',      'image' => 'accessories.jpg'],
-            ['name' => 'Âm thanh',   'description' => 'Loa, tai nghe',           'image' => 'audio.jpg'],
-            ['name' => 'Màn hình',   'description' => 'Màn hình máy tính',       'image' => 'monitors.jpg'],
+            ['name' => 'Laptop', 'description' => 'Máy tính xách tay', 'image' => 'laptops.jpg'],
+            ['name' => 'Phụ kiện', 'description' => 'Phụ kiện công nghệ', 'image' => 'accessories.jpg'],
+            ['name' => 'Âm thanh', 'description' => 'Loa, tai nghe', 'image' => 'audio.jpg'],
+            ['name' => 'Màn hình', 'description' => 'Màn hình máy tính', 'image' => 'monitors.jpg'],
         ];
+
         foreach ($categories as $data) {
+            $data['slug'] = Str::slug($data['name']);
             Category::create($data);
         }
     }

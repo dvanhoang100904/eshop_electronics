@@ -21,27 +21,16 @@
                         Danh Mục
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li>
-                            <a class="dropdown-item" href="/danh-muc/dien-thoai">
-                                <i class="fas fa-mobile-alt me-2"></i>Điện thoại, Tablet
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="/danh-muc/lap-top">
-                                <i class="fas fa-laptop me-2"></i>Laptop
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="/danh-muc/am-thanh">
-                                <i class="fas fa-headphones me-2"></i>Âm thanh
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="/danh-muc/phu-kien">
-                                <i class="fas fa-keyboard me-2"></i>Phụ kiện
-                            </a>
-                        </li>
+                        @foreach ($categories as $category)
+                            <li>
+                                <a class="dropdown-item"
+                                    href="{{ route('customer.category.products', $category->slug) }}">
+                                    <i class="fas fa-tag me-2 text-danger"></i>{{ $category->name }}
+                                </a>
+                            </li>
+                        @endforeach
                     </ul>
+
                 </li>
             </ul>
         </div>
