@@ -34,9 +34,10 @@
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
-                        <div class="card-header bg-danger text-white text-center">
+                        <div class="card-header text-white text-center"
+                            style="background: linear-gradient(135deg, #2a5298, #1e3c72)">
                             <img src="./images/logo.png" alt="Logo" class="mb-3" style="height: 50px;">
-                            <h3>Đăng Nhập Hệ Thống</h3>
+                            <h3>Đăng Nhập</h3>
                         </div>
                         <div class="card-body p-4">
                             @if (session('success'))
@@ -81,12 +82,15 @@
                                         <input class="form-check-input" type="checkbox" id="remember" name="remember">
                                         <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
                                     </div>
-                                    <a href="#!" class="text-decoration-none">Quên mật khẩu?</a>
+                                    <a href="#!" class="text-dark text-decoration-none">Quên mật khẩu?</a>
                                 </div>
 
                                 <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-danger btn-lg">
-                                        <i class="fas fa-sign-in-alt me-2"></i> Đăng nhập
+                                    <button type="submit" class="btn btn-danger btn-lg"
+                                        style="background: linear-gradient(135deg, #2a5298, #1e3c72);border: 2px solid #1e3c72;  ">
+                                        <i class="fas
+                                        fa-sign-in-alt me-2"></i>
+                                        Đăng nhập
                                     </button>
                                 </div>
                             </form>

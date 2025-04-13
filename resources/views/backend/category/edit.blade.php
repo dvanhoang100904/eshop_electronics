@@ -38,18 +38,22 @@
                             <label for="name" class="form-label fw-bold">Tên <span class="text-danger">*</span></label>
                             <input type="text" name="name" id="name" class="form-control form-control-lg"
                                 value="{{ old('name', $category->name) }}" required />
-                            @error('name')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('name'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('name') }}
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Description --}}
                         <div class="mb-4">
                             <label for="description" class="form-label fw-bold">Mô tả</label>
                             <textarea name="description" class="form-control" rows="5">{{ old('description', $category->description) }}</textarea>
-                            @error('description')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('description'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('description') }}
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Image --}}
@@ -57,15 +61,21 @@
                             <label for="image" class="form-label fw-bold">Hình Ảnh</label>
                             <input type="file" name="image" id="image" class="form-control" accept="image/*" />
                             @if ($category->image)
-                                <div class="mt-2">
+                                <div class="mt-2 old-image">
                                     <img src="{{ asset('storage/' . $category->image) }}" alt="Image"
                                         class="img-thumbnail" style="max-height:200px;">
                                     <p class="text-muted">(Giữ nguyên nếu không chọn ảnh mới)</p>
                                 </div>
                             @endif
-                            @error('image')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            <div class="mt-2">
+                                <img id="imagePreview" src="#" alt="Preview" class="img-thumbnail d-none"
+                                    style="max-height: 200px;">
+                            </div>
+                            @if ($errors->has('image'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('image') }}
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -83,3 +93,21 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        document.getElementById("image").addEventListener("change", function() {
+            const [file] = this.files;
+            if (file) {
+                const preview = document.getElementById("imagePreview");
+                const oldImage = document.querySelector(".old-image");
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove("d-none");
+
+                // Ẩn ảnh cũ nếu có
+                if (oldImage) {
+                    oldImage.classList.add("d-none");
+                }
+            }
+        });
+    </script>
+@endpush

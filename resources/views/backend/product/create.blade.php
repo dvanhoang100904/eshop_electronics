@@ -110,3 +110,16 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        // Hiển thị preview ảnh khi chọn
+        document.getElementById("image").addEventListener("change", function() {
+            const [file] = this.files;
+            if (file) {
+                const preview = document.getElementById("imagePreview");
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove("d-none");
+            }
+        });
+    </script>
+@endpush
