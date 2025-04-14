@@ -112,6 +112,8 @@ Route::get('/', [HomeController::class, 'index'])->name('customer.index');
 Route::get('/san-pham', [CustomerProductController::class, 'index'])->name('customer.product');
 Route::get('/san-pham/{slug}', [CustomerProductController::class, 'show'])->name('customer.product.show');
 
+Route::get('/tim-kiem', [CustomerProductController::class, 'search'])->name('customer.product.search');
+
 Route::get('/danh-muc/{slug}', [CustomerCategoryController::class, 'showProductsByCategory'])->name('customer.category.products');
 
 

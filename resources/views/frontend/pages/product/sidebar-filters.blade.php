@@ -25,30 +25,17 @@
                        data-bs-parent="#accordionFilters">
                        <div class="accordion-body p-0">
                            <ul class="list-unstyled mb-0">
-                               <li class="mb-1">
-                                   <a href="#" class="d-block p-2 text-decoration-none text-dark hover-danger">
-                                       <i class="fas fa-mobile-alt me-2 text-danger"></i>
-                                       Điện thoại, Tablet
-                                   </a>
-                               </li>
-                               <li class="mb-1">
-                                   <a href="#" class="d-block p-2 text-decoration-none text-dark hover-danger">
-                                       <i class="fas fa-laptop me-2 text-danger"></i>
-                                       Laptop
-                                   </a>
-                               </li>
-                               <li class="mb-1">
-                                   <a href="#" class="d-block p-2 text-decoration-none text-dark hover-danger">
-                                       <i class="fas fa-headphones me-2 text-danger"></i>
-                                       Âm thanh
-                                   </a>
-                               </li>
-                               <li class="mb-1">
-                                   <a href="#" class="d-block p-2 text-decoration-none text-dark hover-danger">
-                                       <i class="fas fa-keyboard me-2 text-danger"></i> Phụ
-                                       kiện
-                                   </a>
-                               </li>
+                               @foreach ($categories as $category)
+                                   <li class="mb-1">
+                                       <a href="{{ route('customer.category.products', $category->slug) }}"
+                                           class="d-block p-2 text-decoration-none text-dark hover-danger">
+                                           <img src="{{ asset('storage/' . $category->image) }}"
+                                               alt="{{ $category->name }}" class="me-2 rounded"
+                                               style="width: 24px; height: 24px; object-fit: cover;">
+                                           {{ $category->name }}
+                                       </a>
+                                   </li>
+                               @endforeach
                            </ul>
                        </div>
                    </div>

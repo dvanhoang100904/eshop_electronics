@@ -8,7 +8,7 @@
         <nav aria-label="breadcrumb" class="mb-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a class="text-dark text-decoration-none" href="{{ route('customer.index') }}"><i
-                            class="fas fa-home "></i> Trang chủ</a>
+                            class="fas fa-home text-danger"></i> Trang chủ</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
             </ol>
@@ -17,7 +17,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
             <h2 class="h4 fw-bold mb-0">
                 <i class="fas fa-tag me-2 text-danger"></i>
-                Danh mục: {{ $category->name }}
+                {{ $category->name }}
             </h2>
             <span class="badge bg-danger rounded-pill">{{ $products->total() }} sản phẩm</span>
         </div>
@@ -27,18 +27,20 @@
                 <div class="col-xl-3 col-lg-4 col-md-6">
                     <div class="card h-100 shadow-sm border-0">
                         <div class="ratio ratio-1x1">
-                            <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top object-fit-cover"
-                                alt="{{ $product->name }}" loading="lazy">
-                        </div>
+                            <a class="text-dark text-decoration-none"
+                                href="{{ route('customer.product.show', $product->slug) }}">
+                                <img src="{{ asset('storage/' . $product->image) }}" class="card-img-top object-fit-cover"
+                                    alt="{{ $product->name }}" loading="lazy">
+                            </a>
 
+                        </div>
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fs-6 mb-2">{{ Str::limit($product->name, 50) }}</h5>
+                            <a class="text-dark text-decoration-none"
+                                href="{{ route('customer.product.show', $product->slug) }}">
+                                <h5 class="card-title fs-6 mb-2">{{ Str::limit($product->name, 50) }}</h5>
+                            </a>
                             <p class="card-text text-muted small mb-3 flex-grow-1">
-                                {{ Str::limit($product->description, 80) }}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="text-danger fw-bold">{{ number_format($product->price) }} ₫</span>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Xem chi tiết</a>
-                            </div>
+                                {{ Str::limit($product->description, 50) }}</p>
                         </div>
                     </div>
                 </div>

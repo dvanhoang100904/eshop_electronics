@@ -9,7 +9,6 @@
                         aria-label="Slide {{ $index + 1 }}"></button>
                 @endforeach
             </div>
-
             <!-- Slides -->
             <div class="carousel-inner rounded-3">
                 @foreach ($slides as $index => $slide)
@@ -35,7 +34,6 @@
                     </div>
                 @endforeach
             </div>
-
             <!-- Controls -->
             <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
