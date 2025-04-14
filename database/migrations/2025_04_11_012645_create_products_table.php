@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->default(0);
             $table->text('image')->nullable();
             $table->unsignedBigInteger('category_id');
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }

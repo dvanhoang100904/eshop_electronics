@@ -17,14 +17,26 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $query = Product::query();
+        $categories = Category::all();
 
+        // Tìm theo tên sản phẩm
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
-        $perPage = 10;
-        $products = $query->paginate($perPage)->appends($request->only('search'));
 
-        return view('backend.product.index', compact('products'));
+        // Lọc theo danh mục
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Lọc theo sản phẩm nổi bật
+        if ($request->has('is_featured')) {
+            $query->where('is_featured', (int) $request->is_featured);
+        }
+
+        $perPage = 10;
+        $products = $query->paginate($perPage)->appends($request->only('search', 'category_id', 'is_featured'));
+        return view('backend.product.index', compact('products', 'categories'));
     }
 
     /**
@@ -52,7 +64,9 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'image' =>   $imageName,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'is_featured' => $request->is_featured
+
         ]);
 
         $page = $request->get('page');
@@ -90,7 +104,8 @@ class ProductController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'is_featured' => $request->is_featured
         ];
 
         if ($request->hasFile('image')) {

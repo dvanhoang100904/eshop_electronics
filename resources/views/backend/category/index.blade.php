@@ -16,19 +16,37 @@
                 </a>
             </div>
 
-            <!-- Search Form -->
-            <div class="mb-4">
-                <form action="{{ route('category.index') }}?page={{ request()->get('page') }}" method="GET" class="w-100">
+            <!-- Bộ lọc -->
+            <form action="{{ route('category.index') }}" method="GET" class="row g-3 mb-4">
+                {{-- Ô tìm kiếm --}}
+                <div class="col-md-4">
+                    <label class="form-label">Từ khóa</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white border-end-0">
                             <i class="fas fa-search text-muted"></i>
                         </span>
                         <input type="text" class="form-control border-start-0" name="search"
-                            placeholder="Tìm kiếm người dùng..." value="{{ request()->search }}">
-                        <button class="btn btn-primary" type="submit">Tìm</button>
+                            placeholder="Tìm kiếm danh mục..." value="{{ request()->search }}">
                     </div>
-                </form>
-            </div>
+                </div>
+
+                {{-- Trạng thái nổi bật --}}
+                <div class="col-md-2">
+                    <label class="form-label">Nổi bật</label>
+                    <select name="is_featured" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="1" {{ request('is_featured') === '1' ? 'selected' : '' }}>Có</option>
+                        <option value="0" {{ request('is_featured') === '0' ? 'selected' : '' }}>Không</option>
+                    </select>
+                </div>
+
+                {{-- Nút lọc --}}
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" type="submit">
+                        <i class="fas fa-filter me-1"></i> Lọc
+                    </button>
+                </div>
+            </form>
 
             {{-- Categories Table --}}
             <div class="table-responsive">
@@ -38,6 +56,7 @@
                             <th width="80" class="text-center">Mã</th>
                             <th>Tên</th>
                             <th>Mô tả</th>
+                            <th>Slug</th>
                             <th width="120">Hình ảnh</th>
                             <th width="180" class="text-center">Thao Tác</th>
                         </tr>
@@ -54,6 +73,7 @@
                                             class="text-decoration-none">…</a>
                                     @endif
                                 </td>
+                                <td>{{ $category->slug }}</td>
                                 <td class="text-center">
                                     <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"
                                         class="img-thumbnail" width="80" height="80" style="object-fit: cover;">
