@@ -7,7 +7,7 @@
                  <!-- Logo -->
                  <div class="col-lg-2 col-sm-4 col-4">
                      <a href="./index.html" class="float-start">
-                         <img src="./images/logo.png" height="40" alt="Logo" />
+                         <img src="{{ asset('logo/logo.png') }}" height="40" alt="Logo" />
                      </a>
                  </div>
 

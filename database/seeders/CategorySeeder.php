@@ -15,11 +15,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['name' => 'Điện thoại, Tablet', 'description' => 'Các mẫu điện thoại thông minh', 'image' => 'phones.jpg'],
-            ['name' => 'Laptop', 'description' => 'Máy tính xách tay', 'image' => 'laptops.jpg'],
-            ['name' => 'Phụ kiện', 'description' => 'Phụ kiện công nghệ', 'image' => 'accessories.jpg'],
-            ['name' => 'Âm thanh', 'description' => 'Loa, tai nghe', 'image' => 'audio.jpg'],
-            ['name' => 'Màn hình', 'description' => 'Màn hình máy tính', 'image' => 'monitors.jpg'],
+            ['name' => 'Điện thoại, Tablet', 'description' => 'Các mẫu điện thoại thông minh', 'image' => 'phones.jpg', 'is_featured' => true],
+            ['name' => 'Laptop', 'description' => 'Máy tính xách tay', 'image' => 'laptops.jpg', 'is_featured' => true],
+            ['name' => 'Phụ kiện', 'description' => 'Phụ kiện công nghệ', 'image' => 'accessories.jpg', 'is_featured' => true],
+            ['name' => 'Âm thanh', 'description' => 'Loa, tai nghe', 'image' => 'audio.jpg', 'is_featured' => true],
+            ['name' => 'Màn hình', 'description' => 'Màn hình máy tính', 'image' => 'monitors.jpg', 'is_featured' => false],
         ];
 
         foreach ($categories as $data) {

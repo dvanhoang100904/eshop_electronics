@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('image')->nullable();
             $table->string('slug', 100)->unique();
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }
