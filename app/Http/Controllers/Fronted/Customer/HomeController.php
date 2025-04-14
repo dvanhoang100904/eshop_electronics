@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $slides = Slide::all();
+        $slides = Slide::orderBy('created_at', 'desc')->get();
         return view('frontend.pages.index', compact('slides'));
     }
 }
