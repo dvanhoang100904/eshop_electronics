@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProductRequest extends FormRequest
 {
@@ -21,9 +22,17 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        $product_id = $this->route('product_id');
+
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'slug' => [
+                'nullable',
+                'string',
+                'max:100',
+                Rule::unique('products', 'slug')->ignore($product_id, 'product_id')
+            ],
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'category_id' => 'required|integer',
@@ -35,6 +44,9 @@ class ProductRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên sản phẩm không được để trống',
+            'slug.string' => 'Slug phải là một chuỗi ký tự.',
+            'slug.max' => 'Slug không được vượt quá 100 ký tự.',
+            'slug.unique' => 'Slug này đã tồn tại, vui lòng chọn một slug khác.',
             'price.required' => 'Giá sản phẩm không được để trống',
             'price.numeric' => 'Giá phải là số',
             'category_id.required' => 'Vui lòng chọn danh mục',

@@ -26,12 +26,10 @@
                                         {{ $slide->description }}
                                     </p>
                                 @endif
-
                                 @if ($slide->link)
                                     <a href="{{ $slide->link }}"
                                         class="btn btn-light shadow-0 text-danger fw-bold px-4">Xem thêm</a>
                                 @endif
-
                             </div>
                         </div>
                     </div>
