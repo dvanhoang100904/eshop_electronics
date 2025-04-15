@@ -25,7 +25,7 @@
                  <!-- Account and Cart -->
                  <div class="col-lg-3 col-sm-8 col-8">
                      <div class="d-flex float-end">
-                         <a href="./cart.html" class="btn btn-light me-2 cart-btn position-relative">
+                         <a href="{{ route('customer.cart') }}" class="btn btn-light me-2 cart-btn position-relative">
                              <i class="fas fa-shopping-cart"></i>
                              <span class="badge bg-danger cart-badge rounded-circle">3</span>
                          </a>

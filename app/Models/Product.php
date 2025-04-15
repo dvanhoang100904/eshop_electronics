@@ -23,6 +23,13 @@ class Product extends Model
 
     ];
 
+
+    protected $casts = [
+        'is_featured' => 'boolean',
+    ];
+
+
+    // Tạo slug tự động nếu không có
     protected static function booted()
     {
         static::creating(function ($product) {

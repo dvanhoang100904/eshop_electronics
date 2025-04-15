@@ -12,7 +12,7 @@ use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
 use App\Http\Controllers\Fronted\Customer\CategoryController as CustomerCategoryController;
 use App\Http\Controllers\Fronted\Customer\ProductController as CustomerProductController;
-
+use App\Http\Controllers\Fronted\Customer\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,6 +116,8 @@ Route::get('/tim-kiem', [CustomerProductController::class, 'search'])->name('cus
 
 Route::get('/danh-muc/{slug}', [CustomerCategoryController::class, 'showProductsByCategory'])->name('customer.category.products');
 
+// cart
+route::get('/gio-hang', [CartController::class, 'index'])->name('customer.cart');
 
 
 // login
