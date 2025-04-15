@@ -23,7 +23,7 @@ class RequireCustomerLogin
         }
 
         if ($user->role_id !== 2) {
-            return redirect()->route('home')->withErrors('Bạn không phải là khách hàng để truy cập trang này!');
+            return redirect()->route('customer.index')->withErrors('Bạn không phải là khách hàng để truy cập trang này!');
         }
 
         return $next($request);
