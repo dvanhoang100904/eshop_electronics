@@ -8,8 +8,8 @@
             <!-- Breadcrumb Navigation -->
             <nav aria-label="breadcrumb" class="mb-4">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a class="text-dark text-decoration-none"
-                            href="{{ route('customer.index') }}"><i class="fas fa-home text-danger"></i> Trang chủ</a>
+                    <li class="breadcrumb-item"><a class="text-dark text-decoration-none" href="{{ route('customer.index') }}">
+                            Sản phẩm</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $category->name }}</li>
                 </ol>

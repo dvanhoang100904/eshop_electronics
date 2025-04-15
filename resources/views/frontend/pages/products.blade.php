@@ -44,9 +44,15 @@
                                     </div>
                                     <!-- action -->
                                     <div class="card-footer bg-transparent border-top-0 pt-0">
-                                        <a href="#!" class="btn btn-danger w-100 add-to-cart-btn">
-                                            <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
-                                        </a>
+                                        <form action="{{ route('customer.addToCart') }}" method="Post">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->product_id }}" />
+                                            <input type="hidden" name="quantity" id="product-quantity-input"
+                                                value="1" />
+                                            <button type="submit" class="btn btn-danger flex-grow-1">
+                                                <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

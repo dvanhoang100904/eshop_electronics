@@ -44,19 +44,25 @@
                     </p>
 
                     <!-- Action -->
-                    <div class="d-flex gap-3 mb-4">
+                    <!-- Action -->
+                    <form action="{{ route('customer.addToCart') }}" method="POST" class="d-flex gap-3 mb-4">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->product_id }}" />
+
                         <div class="input-group" style="width: 150px">
-                            <button class="btn btn-outline-danger" type="button">-</button>
-                            <input type="number" class="form-control text-center" value="1" min="1" />
-                            <button class="btn btn-outline-danger" type="button">+</button>
+                            <button class="btn btn-outline-danger" type="button" onclick="changeQuantity(-1)">-</button>
+                            <input type="number" class="form-control text-center" name="quantity"
+                                id="product-quantity-input" value="1" min="1" required />
+                            <button class="btn btn-outline-danger" type="button" onclick="changeQuantity(1)">+</button>
                         </div>
-                        <a href="#!" class="btn btn-danger flex-grow-1">
+
+                        <button type="submit" class="btn btn-danger flex-grow-1">
                             <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ hàng
-                        </a>
-                    </div>
+                        </button>
+                    </form>
 
                     <!-- Buy Now -->
-                    <a href="./cart.html" class="btn btn-outline-danger w-100 mb-4">
+                    <a href="{{ route('customer.cart') }}" class="btn btn-outline-danger w-100 mb-4">
                         <i class="fas fa-bolt me-2"></i>Mua ngay
                     </a>
                 </div>
@@ -64,3 +70,15 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+    <script>
+        function changeQuantity(amount) {
+            const input = document.getElementById('product-quantity-input');
+            let value = parseInt(input.value) || 1;
+            value += amount;
+            if (value < 1) value = 1;
+            input.value = value;
+        }
+    </script>
+@endpush

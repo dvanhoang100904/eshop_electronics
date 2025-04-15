@@ -118,6 +118,12 @@ Route::get('/danh-muc/{slug}', [CustomerCategoryController::class, 'showProducts
 
 // cart
 route::get('/gio-hang', [CartController::class, 'index'])->name('customer.cart');
+Route::post('/them-vao-gio-hang', [CartController::class, 'addToCart'])->name('customer.addToCart');
+Route::post('/gio-hang/update', [CartController::class, 'updateCart'])->name('customer.updateCart');
+Route::post('/gio-hang/remove', [CartController::class, 'removeFromCart'])->name('customer.removeFromCart');
+
+
+
 
 
 // login
