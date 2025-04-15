@@ -3,7 +3,9 @@
 @section('title', 'Trang giỏ hàng')
 
 @section('content')
-    {{ $totalQuantity = $cartItems->sum('quantity') }}
+    @php
+        $totalQuantity = $cartItems->sum('quantity');
+    @endphp
     <section class="bg-light py-5">
         <div class="container">
             <div class="row">
@@ -113,7 +115,7 @@
                             </div>
 
                             @if ($cartItems->count())
-                                <a href="#!" class="btn btn-danger w-100 mb-2">Đặt hàng</a>
+                                <a href="{{ route('customer.checkout') }}" class="btn btn-danger w-100 mb-2">Đặt hàng</a>
                             @endif
 
                             <a href="{{ route('customer.product') }}" class="btn btn-checkout w-100 mb-2">Tiếp tục mua

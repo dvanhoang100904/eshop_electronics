@@ -13,6 +13,7 @@ use App\Http\Controllers\Fronted\Customer\HomeController;
 use App\Http\Controllers\Fronted\Customer\CategoryController as CustomerCategoryController;
 use App\Http\Controllers\Fronted\Customer\ProductController as CustomerProductController;
 use App\Http\Controllers\Fronted\Customer\CartController;
+use App\Http\Controllers\Fronted\Customer\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -122,9 +123,13 @@ Route::post('/them-vao-gio-hang', [CartController::class, 'addToCart'])->name('c
 Route::post('/gio-hang/update', [CartController::class, 'updateCart'])->name('customer.updateCart');
 Route::post('/gio-hang/remove', [CartController::class, 'removeFromCart'])->name('customer.removeFromCart');
 
-
-
-
+// payment
+Route::get('/thanh-toan', [OrderController::class, 'checkout'])->name('customer.checkout')->middleware('require.customer.login');
+// order
+Route::post('/dat-hang', [OrderController::class, 'placeOrder'])->name('customer.placeOrder')->middleware('require.customer.login');
+Route::get('/dat-hang-thanh-cong/{order}', [OrderController::class, 'orderSuccess'])->name('customer.order.success')->middleware('require.customer.login');
+Route::get('/lich-su-don-hang', [OrderController::class, 'orderHistory'])->name('customer.orders')->middleware('require.customer.login');
+Route::get('/don-hang/{order}', [OrderController::class, 'orderDetail'])->name('customer.order.detail')->middleware('require.customer.login');
 
 // login
 Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('redirectIf.customer.auth');
