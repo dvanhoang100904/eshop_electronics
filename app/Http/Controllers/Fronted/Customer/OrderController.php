@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fronted\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Payment;
@@ -33,7 +34,7 @@ class OrderController extends Controller
     }
 
     // Xử lý đặt hàng (place order)
-    public function placeOrder(Request $request)
+    public function placeOrder(OrderRequest $request)
     {
         $user = Auth::user();
         $cart = $user->cart;

@@ -76,15 +76,6 @@
                                                 <i class="fas fa-cogs me-2"></i>Quản trị
                                             </a>
                                         </li>
-                                        <li>
-                                            <form action="{{ route('customer.logout') }}" method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item">
-                                                    <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
-                                                </button>
-                                            </form>
-                                        </li>
                                     @endif
                                 @else
                                     <!-- Not logged in -->

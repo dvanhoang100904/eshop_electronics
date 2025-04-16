@@ -81,15 +81,19 @@
                                 <div class="form-outline mb-3">
                                     <label for="paymentMethod" class="mb-2">Phương thức thanh toán</label>
                                     <select class="form-select" id="paymentMethod" name="paymentMethod" required>
-                                        <option value="cod">COD</option>
-                                        <option value="paypal">Momo</option>
+                                        <option value="COD" {{ old('paymentMethod') == 'COD' ? 'selected' : '' }}>COD
+                                        </option>
+                                        <option value="MoMo" {{ old('paymentMethod') == 'MoMo' ? 'selected' : '' }}>
+                                            Momo</option>
+
                                     </select>
-                                    @if ($errors->has('address'))
+                                    @if ($errors->has('paymentMethod'))
                                         <div class="invalid-feedback d-block">
-                                            {{ $errors->first('address') }}
+                                            {{ $errors->first('paymentMethod') }}
                                         </div>
                                     @endif
                                 </div>
+
 
                                 <div class="form-floating">
                                     <textarea class="form-control" id="note" name="notes" placeholder="Nhập ghi chú"

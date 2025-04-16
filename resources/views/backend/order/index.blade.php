@@ -5,62 +5,61 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="h5 mb-0 fw-bold">
-                    <i class="fas fa-users me-2"></i>Danh Sách Đơn Hàng
+                    <i class="fas fa-shopping-cart me-2"></i>Danh Sách Đơn Hàng
                 </h2>
-                <a href="{{ route('user.create') }}?page={{ request()->get('page') }}" class="btn btn-success btn-sm">
-                    <i class="fas fa-plus-circle me-1"></i> Thêm
-                </a>
             </div>
 
             <!-- Search Form -->
             <div class="mb-4">
-                <form action="{{ route('user.index') }}?page={{ request()->get('page') }}" method="GET" class="w-100">
+                <form action="{{ route('order.index') }}?page={{ request()->get('page') }}" method="GET" class="w-100">
                     <div class="input-group">
                         <span class="input-group-text bg-white border-end-0">
                             <i class="fas fa-search text-muted"></i>
                         </span>
                         <input type="text" class="form-control border-start-0" name="search"
-                            placeholder="Tìm kiếm người dùng..." value="{{ request()->search }}">
+                            placeholder="Tìm kiếm đơn hàng..." value="{{ request()->search }}">
                         <button class="btn btn-primary" type="submit">Tìm</button>
                     </div>
                 </form>
             </div>
 
-            {{-- Users Table --}}
+            {{-- Orders Table --}}
             <div class="table-responsive">
                 <table class="table table-hover table-bordered align-middle">
                     <thead class="table-primary">
                         <tr>
                             <th width="80" class="text-center">Mã</th>
-                            <th>Họ Tên</th>
+                            <th>Khách Hàng</th>
+                            <th>Tổng Tiền</th>
+                            <th>Trạng Thái</th>
+                            <th>Thanh Toán</th>
                             <th>Số Điện Thoại</th>
-                            <th>Email</th>
-                            <th width="120" class="text-center">Vai Trò</th>
                             <th width="180" class="text-center">Thao Tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($orders as $order)
                             <tr>
-                                <td class="text-center fw-bold">#{{ $user->user_id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td class="text-center">{{ $user->role->name }}</td>
+                                <td class="text-center fw-bold">#{{ $order->order_id }}</td>
+                                <td>{{ $order->user->name }}</td>
+                                <td>{{ number_format($order->total_price, 0, ',', '.') }} VND</td>
+                                <td>{{ $order->status }}</td>
+                                <td>{{ $order->payment->method }}</td>
+                                <td class="text-center">{{ $order->user->phone }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-                                        <a href="{{ route('user.show', $user->user_id) }}?page={{ request()->get('page') }}"
+                                        <a href="{{ route('order.show', $order->order_id) }}?page={{ request()->get('page') }}"
                                             class="btn btn-sm btn-info" title="Xem" data-bs-toggle="tooltip">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <a href="{{ route('user.edit', $user->user_id) }}?page={{ request()->get('page') }}"
+                                        <a href="{{ route('order.edit', $order->order_id) }}?page={{ request()->get('page') }}"
                                             class="btn btn-sm btn-warning" title="Chỉnh sửa" data-bs-toggle="tooltip">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <form
-                                            action="{{ route('user.destroy', $user->user_id) }}?page={{ request()->get('page') }}"
+                                            action="{{ route('order.destroy', $order->order_id) }}?page={{ request()->get('page') }}"
                                             method="POST" style="display:inline;"
-                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này không?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger" title="Xóa"
@@ -77,29 +76,29 @@
             </div>
 
             {{-- Pagination --}}
-            @if ($users->hasPages())
+            @if ($orders->hasPages())
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <div class="text-muted">
-                        Hiển thị từ <strong>{{ $users->firstItem() }}</strong> đến
-                        <strong>{{ $users->lastItem() }}</strong>
-                        trong tổng số <strong>{{ $users->total() }}</strong> người dùng
+                        Hiển thị từ <strong>{{ $orders->firstItem() }}</strong> đến
+                        <strong>{{ $orders->lastItem() }}</strong>
+                        trong tổng số <strong>{{ $orders->total() }}</strong> người dùng
                     </div>
                     <nav aria-label="Page navigation">
                         <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item {{ $users->onFirstPage() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $users->previousPageUrl() }}" aria-label="Previous">
+                            <li class="page-item {{ $orders->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $orders->previousPageUrl() }}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
 
-                            @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
-                                <li class="page-item {{ $page == $users->currentPage() ? 'active' : '' }}">
+                            @foreach ($orders->getUrlRange(1, $orders->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $orders->currentPage() ? 'active' : '' }}">
                                     <a class="page-link" href="{{ $url }}">{{ $page }}</a>
                                 </li>
                             @endforeach
 
-                            <li class="page-item {{ $users->hasMorePages() ? '' : 'disabled' }}">
-                                <a class="page-link" href="{{ $users->nextPageUrl() }}" aria-label="Next">
+                            <li class="page-item {{ $orders->hasMorePages() ? '' : 'disabled' }}">
+                                <a class="page-link" href="{{ $orders->nextPageUrl() }}" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>

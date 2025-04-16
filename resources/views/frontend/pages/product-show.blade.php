@@ -44,7 +44,6 @@
                     </p>
 
                     <!-- Action -->
-                    <!-- Action -->
                     <form action="{{ route('customer.addToCart') }}" method="POST" class="d-flex gap-3 mb-4">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->product_id }}" />

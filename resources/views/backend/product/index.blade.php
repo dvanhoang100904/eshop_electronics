@@ -79,7 +79,7 @@
                     <tbody>
                         @foreach ($products as $product)
                             <tr>
-                                <td class="text-center fw-bold">{{ $product->product_id }}</td>
+                                <td class="text-center fw-bold">#{{ $product->product_id }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>
                                     {{ Str::limit($product->description, 20) }}

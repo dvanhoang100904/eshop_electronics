@@ -7,13 +7,14 @@ use App\Http\Controllers\Backend\Admin\UserController;
 use App\Http\Controllers\Backend\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Backend\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Backend\Admin\SlideController;
+use App\Http\Controllers\Backend\Admin\OrderController as AdminOrderController;
 
 use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
 use App\Http\Controllers\Fronted\Customer\CategoryController as CustomerCategoryController;
 use App\Http\Controllers\Fronted\Customer\ProductController as CustomerProductController;
 use App\Http\Controllers\Fronted\Customer\CartController;
-use App\Http\Controllers\Fronted\Customer\OrderController;
+use App\Http\Controllers\Fronted\Customer\OrderController as CustomerOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,7 +86,6 @@ route::prefix('admin')->group(function () {
         Route::delete('slides/{slide_id}', [SlideController::class, 'destroy'])->name('slide.destroy');
     });
 
-
     // CRUD Categories
     Route::middleware('require.admin.login')->group(function () {
         // index
@@ -100,6 +100,19 @@ route::prefix('admin')->group(function () {
         Route::put('categories/{category_id}', [AdminCategoryController::class, 'update'])->name('category.update');
         // delete
         Route::delete('categories/{category_id}', [AdminCategoryController::class, 'destroy'])->name('category.destroy');
+    });
+
+    // Orders
+    Route::middleware('require.admin.login')->group(function () {
+        // index
+        Route::get('orders', [AdminOrderController::class, 'index'])->name('order.index');
+        // show
+        Route::get('orders/{order_id}', [AdminOrderController::class, 'show'])->name('order.show');
+        // edit
+        Route::get('orders/{order_id}/edit', [AdminOrderController::class, 'edit'])->name('order.edit');
+        Route::put('orders/{order_id}', [AdminOrderController::class, 'update'])->name('order.update');
+        // delete
+        Route::delete('orders/{order_id}', [AdminOrderController::class, 'destroy'])->name('order.destroy');
     });
 });
 
@@ -124,12 +137,12 @@ Route::post('/gio-hang/update', [CartController::class, 'updateCart'])->name('cu
 Route::post('/gio-hang/remove', [CartController::class, 'removeFromCart'])->name('customer.removeFromCart');
 
 // payment
-Route::get('/thanh-toan', [OrderController::class, 'checkout'])->name('customer.checkout')->middleware('require.customer.login');
+Route::get('/thanh-toan', [CustomerOrderController::class, 'checkout'])->name('customer.checkout')->middleware('require.customer.login');
 // order
-Route::post('/dat-hang', [OrderController::class, 'placeOrder'])->name('customer.placeOrder')->middleware('require.customer.login');
-Route::get('/dat-hang-thanh-cong/{order}', [OrderController::class, 'orderSuccess'])->name('customer.order.success')->middleware('require.customer.login');
-Route::get('/lich-su-don-hang', [OrderController::class, 'orderHistory'])->name('customer.orders')->middleware('require.customer.login');
-Route::get('/don-hang/{order}', [OrderController::class, 'orderDetail'])->name('customer.order.detail')->middleware('require.customer.login');
+Route::post('/dat-hang', [CustomerOrderController::class, 'placeOrder'])->name('customer.placeOrder')->middleware('require.customer.login');
+Route::get('/dat-hang-thanh-cong/{order}', [CustomerOrderController::class, 'orderSuccess'])->name('customer.order.success')->middleware('require.customer.login');
+Route::get('/lich-su-don-hang', [CustomerOrderController::class, 'orderHistory'])->name('customer.orders')->middleware('require.customer.login');
+Route::get('/don-hang/{order}', [CustomerOrderController::class, 'orderDetail'])->name('customer.order.detail')->middleware('require.customer.login');
 
 // login
 Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('redirectIf.customer.auth');

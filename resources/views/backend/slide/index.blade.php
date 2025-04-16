@@ -40,7 +40,7 @@
                         @else
                             @foreach ($slides as $slide)
                                 <tr>
-                                    <td class="text-center fw-bold">{{ $slide->slide_id }}</td>
+                                    <td class="text-center fw-bold">#{{ $slide->slide_id }}</td>
                                     <td class="text-center">
                                         <img src="{{ asset('storage/' . $slide->image) }}" alt="{{ $slide->title }}"
                                             class="img-thumbnail" width="160" height="160" style="object-fit: cover;">

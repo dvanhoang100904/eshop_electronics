@@ -63,7 +63,7 @@
                     <tbody>
                         @foreach ($categories as $category)
                             <tr>
-                                <td class="text-center fw-bold">{{ $category->category_id }}</td>
+                                <td class="text-center fw-bold">#{{ $category->category_id }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>
                                     {{ Str::limit($category->description, 20) }}
