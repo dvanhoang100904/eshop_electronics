@@ -31,9 +31,11 @@
                                     class="text-danger">*</span></label>
                             <input type="text" name="name" id="name" class="form-control form-control-lg"
                                 required placeholder="Nhập họ tên" value="{{ old('name') }}">
-                            @error('name')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('name'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('name') }}
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Số điện thoại --}}
@@ -42,9 +44,11 @@
                             <input type="text" name="phone" id="phone" class="form-control form-control-lg"
                                 required placeholder="Nhập số điện thoại" pattern="[0-9]{10,12}"
                                 value="{{ old('phone') }}">
-                            @error('phone')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('phone'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('phone') }}
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Email --}}
@@ -53,9 +57,11 @@
                                     class="text-danger">*</span></label>
                             <input type="email" name="email" id="email" class="form-control form-control-lg"
                                 required placeholder="Nhập email" value="{{ old('email') }}">
-                            @error('email')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('email'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('email') }}
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Password --}}
@@ -64,9 +70,11 @@
                                     class="text-danger">*</span></label>
                             <input type="password" name="password" id="password" class="form-control form-control-lg"
                                 required placeholder="Nhập mật khẩu">
-                            @error('password')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('password'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('password') }}
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Xác nhận Password --}}
@@ -75,9 +83,11 @@
                                     class="text-danger">*</span></label>
                             <input type="password" name="password_confirmation" id="password_confirmation"
                                 class="form-control form-control-lg" required placeholder="Nhập lại mật khẩu">
-                            @error('password_confirmation')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('password_confirmation'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('password_confirmation') }}
+                                </div>
+                            @endif
                         </div>
 
                         {{-- Vai trò --}}
@@ -92,9 +102,11 @@
                                     </option>
                                 @endforeach
                             </select>
-                            @error('role_id')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            @if ($errors->has('role_id'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('role_id') }}
+                                </div>
+                            @endif
                         </div>
 
                     </div>

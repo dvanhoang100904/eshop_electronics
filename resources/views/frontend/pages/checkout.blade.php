@@ -84,7 +84,7 @@
                                         <option value="COD" {{ old('paymentMethod') == 'COD' ? 'selected' : '' }}>COD
                                         </option>
                                         <option value="MoMo" {{ old('paymentMethod') == 'MoMo' ? 'selected' : '' }}>
-                                            Momo</option>
+                                            MoMo</option>
 
                                     </select>
                                     @if ($errors->has('paymentMethod'))

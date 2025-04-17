@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Backend\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateOrderRequest;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -44,24 +47,74 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($order_id)
     {
-        //
+        $order = Order::findOrFail($order_id);
+        return view('backend.order.edit', compact('order'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+    public function update(UpdateOrderRequest $request, $order_id)
     {
-        //
+
+        try {
+            DB::beginTransaction();
+
+            $order = Order::findOrFail($order_id);
+            $order->status = $request->status;
+            $order->save();
+
+            // Cập nhật payment nếu tồn tại
+            $payment = $order->payment;
+            if ($payment) {
+                $payment->status = $request->payment_status;
+                $payment->method = $request->payment_method;
+                $payment->save();
+            }
+
+            DB::commit();
+
+            $page = $request->get('page');
+
+            return redirect()->route('order.index', ['page' => $page])->with('success', 'Cập nhật đơn hàng thành công!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Lỗi cập nhật đơn hàng: ' . $e->getMessage());
+
+            return redirect()->route('order.index')->with('error', 'Cập nhật đơn hàng thất bại.');
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($order_id)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $order = Order::findOrFail($order_id);
+            // Xoá các chi tiết đơn hàng liên quan
+            $order->orderDetails()->delete();
+
+            // Xoá thông tin thanh toán (nếu có)
+            if ($order->payment) {
+                $order->payment()->delete();
+            }
+
+            // Xoá chính đơn hàng
+            $order->delete();
+
+            DB::commit();
+
+            return redirect()->route('order.index')->with('success', 'Đã xóa đơn hàng thành công.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('order.index')->with('error', 'Xóa đơn hàng thất bại: ' . $e->getMessage());
+        }
     }
 }

@@ -15,10 +15,14 @@ use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
-    // Trang thanh toán
+    /**
+     * Hiển thị trang thanh toán
+     */
     public function checkout()
     {
+        // Lấy thông tin người dùng đang đăng nhập
         $user = Auth::user();
+        // Lấy giỏ hàng của người dùng
         $cart = $user->cart;
 
         if (!$cart || $cart->cartItems->isEmpty()) {
@@ -26,6 +30,8 @@ class OrderController extends Controller
         }
 
         $cartItems = $cart->cartItems;
+
+        // Tính tổng tiền
         $totalPrice = $cartItems->sum(function ($item) {
             return $item->product ? $item->product->price * $item->quantity : 0;
         });
@@ -33,7 +39,9 @@ class OrderController extends Controller
         return view('frontend.pages.checkout', compact('cartItems', 'totalPrice'));
     }
 
-    // Xử lý đặt hàng (place order)
+    /**
+     * Xử lý khi khách hàng đặt hàng
+     */
     public function placeOrder(OrderRequest $request)
     {
         $user = Auth::user();
@@ -47,7 +55,7 @@ class OrderController extends Controller
 
         DB::beginTransaction();
         try {
-            // Tính toán tổng giá trị đơn hàng
+            // Tính toán tổng tiền đơn hàng
             $totalPrice = $cartItems->sum(function ($item) {
                 return $item->product ? $item->product->price * $item->quantity : 0;
             });
@@ -60,7 +68,7 @@ class OrderController extends Controller
                 'address' => $request->address,
             ]);
 
-            // Tạo đơn hàng
+            // Tạo đơn hàng mới
             $order = Order::create([
                 'user_id' => $user->user_id,
                 'total_price' => $totalPrice,
@@ -69,7 +77,7 @@ class OrderController extends Controller
                 'notes' => $request->notes,
             ]);
 
-            // Lưu chi tiết đơn hàng
+            // Thêm từng chi tiết đơn hàng
             foreach ($cartItems as $item) {
                 OrderDetail::create([
                     'order_id' => $order->order_id,
@@ -94,7 +102,7 @@ class OrderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('customer.order.success', $order->order_id); // Chuyển đến trang thành công
+            return redirect()->route('customer.order.success', $order->order_id);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Lỗi đặt hàng: ' . $e->getMessage());
@@ -102,15 +110,22 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * Trang hiển thị đơn hàng thành công sau khi đặt
+     */
     public function orderSuccess($order_id)
     {
         $order = Order::with('orderDetails.product', 'shippingAddress')
             ->where('order_id', $order_id)
             ->where('user_id', Auth::id())
             ->firstOrFail();
+
         return view('frontend.pages.order-success', compact('order'));
     }
 
+    /**
+     * Hiển thị danh sách đơn hàng của khách hàng
+     */
     public function orderHistory()
     {
         $user = Auth::user();
@@ -122,15 +137,19 @@ class OrderController extends Controller
         return view('frontend.pages.order-history', compact('orders'));
     }
 
+    /**
+     * Hiển thị chi tiết đơn hàng 
+     */
     public function orderDetail($orderId)
     {
         $user = Auth::user();
 
-        // Lấy thông tin đơn hàng của người dùng, bao gồm chi tiết sản phẩm
+        // Lấy đơn hàng và kiểm tra thuộc về user hiện tại
         $order = Order::with('orderDetails.product', 'shippingAddress')
             ->where('user_id', $user->user_id)
             ->where('order_id', $orderId)
             ->first();
+
         if (!$order) {
             return redirect()->route('customer.orders')->withErrors('Đơn hàng không tồn tại.');
         }
