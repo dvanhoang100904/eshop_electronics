@@ -3,6 +3,49 @@
 @section('title', 'Chi tiết đơn hàng')
 
 @section('content')
+    @php
+        $paymentStatuses = [
+            'đang_chờ' => [
+                'label' => 'Đang chờ',
+                'color' => 'secondary',
+            ],
+            'đã_thanh_toán' => [
+                'label' => 'Đã thanh toán',
+                'color' => 'success',
+            ],
+            'thất_bại' => [
+                'label' => 'Thất bại',
+                'color' => 'danger',
+            ],
+            'đã_hoàn_tiền' => [
+                'label' => 'Đã hoàn tiền',
+                'color' => 'info',
+            ],
+        ];
+
+        $orderStatuses = [
+            'chờ_xử_lý' => [
+                'label' => 'Chờ xử lý',
+                'color' => 'secondary',
+            ],
+            'đang_xử_lý' => [
+                'label' => 'Đang xử lý',
+                'color' => 'warning',
+            ],
+            'đang_vận_chuyển' => [
+                'label' => 'Đang vận chuyển',
+                'color' => 'primary',
+            ],
+            'đã_giao_hàng' => [
+                'label' => 'Đã giao hàng',
+                'color' => 'success',
+            ],
+            'đã_hủy' => [
+                'label' => 'Đã hủy',
+                'color' => 'danger',
+            ],
+        ];
+    @endphp
     <div class="container py-5">
         <h3 class="mb-4">Chi tiết đơn hàng #{{ $order->order_id }}</h3>
 
@@ -13,13 +56,20 @@
                     <div class="col-md-6">
                         <p><strong>Ngày đặt:</strong> {{ $order->created_at->format('d/m/Y H:i') }}</p>
                         <p><strong>Trạng thái đơn hàng:</strong>
-                            <span>{{ ucfirst(str_replace('_', ' ', $order->status)) }}</span>
+                            <span class="badge bg-{{ $orderStatuses[$order->status]['color'] ?? 'secondary' }}">
+                                {{ $orderStatuses[$order->status]['label'] ?? $order->status }}
+                            </span>
+                        </p>
+                        <p><strong>Trạng thái thanh toán:</strong>
+                            <span class="badge bg-{{ $paymentStatuses[$order->payment->status]['color'] ?? 'secondary' }}">
+                                {{ $paymentStatuses[$order->payment->status]['label'] ?? $order->payment->status }}
+                            </span>
                         </p>
                         <p><strong>Phương thức thanh toán:</strong> {{ strtoupper($order->payment->method) }}</p>
                         <p><strong>Tổng tiền:</strong> {{ number_format($order->total_price, 0, ',', '.') }}VND</p>
                     </div>
                     <div class="col-md-6">
-                        <h6>Địa chỉ giao hàng</h6>
+                        <h5 class="mb-3">Địa chỉ giao hàng</h5>
                         <p><strong>Tên người nhận:</strong> {{ $order->shippingAddress->name }}</p>
                         <p><strong>Địa chỉ: </strong> {{ $order->shippingAddress->address }}</p>
                         <p><strong>Phone:</strong> {{ $order->shippingAddress->phone }}</p>

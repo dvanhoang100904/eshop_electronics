@@ -1,6 +1,49 @@
 @extends('backend.layouts.admin')
 
 @section('content')
+    @php
+        $paymentStatuses = [
+            'đang_chờ' => [
+                'label' => 'Đang chờ',
+                'color' => 'secondary',
+            ],
+            'đã_thanh_toán' => [
+                'label' => 'Đã thanh toán',
+                'color' => 'success',
+            ],
+            'thất_bại' => [
+                'label' => 'Thất bại',
+                'color' => 'danger',
+            ],
+            'đã_hoàn_tiền' => [
+                'label' => 'Đã hoàn tiền',
+                'color' => 'info',
+            ],
+        ];
+
+        $orderStatuses = [
+            'chờ_xử_lý' => [
+                'label' => 'Chờ xử lý',
+                'color' => 'secondary',
+            ],
+            'đang_xử_lý' => [
+                'label' => 'Đang xử lý',
+                'color' => 'warning',
+            ],
+            'đang_vận_chuyển' => [
+                'label' => 'Đang vận chuyển',
+                'color' => 'primary',
+            ],
+            'đã_giao_hàng' => [
+                'label' => 'Đã giao hàng',
+                'color' => 'success',
+            ],
+            'đã_hủy' => [
+                'label' => 'Đã hủy',
+                'color' => 'danger',
+            ],
+        ];
+    @endphp
     <div class="mb-4">
         <h2 class="fw-bold mb-3">
             <i class="fas fa-shopping-cart me-2"></i> Chi tiết đơn hàng #{{ $order->order_id }}
@@ -31,9 +74,15 @@
                 <p><strong>Ghi chú:</strong> {{ $order->notes }}</p>
             </div>
             <div class="col-md-6">
-                <p><strong>Trạng thái đơn hàng:</strong> {{ $order->status }}</p>
+                <p><strong>Trạng thái đơn hàng:</strong> <span
+                        class="badge bg-{{ $orderStatuses[$order->status]['color'] ?? 'secondary' }}">
+                        {{ $orderStatuses[$order->status]['label'] ?? $order->status }}
+                    </span></p>
                 <p><strong>Phương thức thanh toán:</strong> {{ $order->payment->method }}</p>
-                <p><strong>Trạng thái thanh toán:</strong> {{ $order->payment->status }}</p>
+                <p><strong>Trạng thái thanh toán:</strong> <span
+                        class="badge bg-{{ $paymentStatuses[$order->payment->status]['color'] ?? 'secondary' }}">
+                        {{ $paymentStatuses[$order->payment->status]['label'] ?? $order->payment->status }}
+                    </span></p>
             </div>
         </div>
     </div>

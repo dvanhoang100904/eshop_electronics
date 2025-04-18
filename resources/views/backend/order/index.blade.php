@@ -1,6 +1,30 @@
 @extends('backend.layouts.admin')
 
 @section('content')
+    @php
+        $orderStatuses = [
+            'chờ_xử_lý' => [
+                'label' => 'Chờ xử lý',
+                'color' => 'secondary',
+            ],
+            'đang_xử_lý' => [
+                'label' => 'Đang xử lý',
+                'color' => 'warning',
+            ],
+            'đang_vận_chuyển' => [
+                'label' => 'Đang vận chuyển',
+                'color' => 'primary',
+            ],
+            'đã_giao_hàng' => [
+                'label' => 'Đã giao hàng',
+                'color' => 'success',
+            ],
+            'đã_hủy' => [
+                'label' => 'Đã hủy',
+                'color' => 'danger',
+            ],
+        ];
+    @endphp
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -41,9 +65,16 @@
                         @foreach ($orders as $order)
                             <tr>
                                 <td class="text-center fw-bold">#{{ $order->order_id }}</td>
-                                <td>{{ $order->user->name }}</td>
-                                <td>{{ number_format($order->total_price, 0, ',', '.') }} VND</td>
-                                <td>{{ $order->status }}</td>
+                                <td>{{ $order->shippingAddress->name }}
+                                    <br>
+                                    <small class="text-muted">(Người Đặt: {{ $order->user->name }})</small>
+                                </td>
+                                <td>{{ number_format($order->total_price, 0, ',', '.') }} <sup>VND</sup></td>
+                                <td>
+                                    <span class="badge bg-{{ $orderStatuses[$order->status]['color'] ?? 'secondary' }}">
+                                        {{ $orderStatuses[$order->status]['label'] ?? $order->status }}
+                                    </span>
+                                </td>
                                 <td>{{ $order->payment->method }}</td>
                                 <td class="text-center">{{ $order->user->phone }}</td>
                                 <td>

@@ -3,6 +3,30 @@
 @section('title', 'Lịch sử đơn hàng')
 
 @section('content')
+    @php
+        $orderStatuses = [
+            'chờ_xử_lý' => [
+                'label' => 'Chờ xử lý',
+                'color' => 'secondary',
+            ],
+            'đang_xử_lý' => [
+                'label' => 'Đang xử lý',
+                'color' => 'warning',
+            ],
+            'đang_vận_chuyển' => [
+                'label' => 'Đang vận chuyển',
+                'color' => 'primary',
+            ],
+            'đã_giao_hàng' => [
+                'label' => 'Đã giao hàng',
+                'color' => 'success',
+            ],
+            'đã_hủy' => [
+                'label' => 'Đã hủy',
+                'color' => 'danger',
+            ],
+        ];
+    @endphp
     <div class="container py-5">
         <h3 class="mb-4">Lịch sử đơn hàng của bạn</h3>
 
@@ -26,7 +50,9 @@
                                 <td>{{ $order->created_at->format('d/m/Y') }}</td>
                                 <td>{{ number_format($order->total_price, 0, ',', '.') }} VND</td>
                                 <td>{{ strtoupper($order->payment->method) }}</td>
-                                <td>{{ ucfirst(str_replace('_', ' ', $order->status)) }}
+                                <td> <span class="badge bg-{{ $orderStatuses[$order->status]['color'] ?? 'secondary' }}">
+                                        {{ $orderStatuses[$order->status]['label'] ?? $order->status }}
+                                    </span>
                                 </td>
                                 <td>
                                     <a href="{{ route('customer.order.detail', $order->order_id) }}"
