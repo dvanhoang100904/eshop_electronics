@@ -10,18 +10,19 @@ use Illuminate\Support\Facades\Storage;
 
 class SlideController extends Controller
 {
+    // Định nghĩa số lượng slide hiển thị mỗi trang (dùng cho phân trang)
+    const PER_PAGES = 5;
+
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách các slide (có phân trang).
      */
     public function index()
     {
-        $perPage = 5;
-        $slides = Slide::paginate($perPage);
+        $slides = Slide::paginate(self::PER_PAGES);
         return view('backend.slide.index', compact('slides'));
     }
-
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị form thêm slide mới.
      */
     public function create()
     {
@@ -29,28 +30,33 @@ class SlideController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu slide mới vào cơ sở dữ liệu.
      */
     public function store(SlideRequest $request)
     {
+        // Kiểm tra nếu người dùng có tải lên ảnh
         $imagePath = null;
         if ($request->hasFile('image')) {
+            // Lưu ảnh vào thư mục 'slides' trong storage/public
             $imagePath = $request->file('image')->store('slides', 'public');
         }
 
+        // Tạo slide mới
         Slide::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'link' => $request->input('link'),
             'image' => $imagePath,
         ]);
+
         $page = $request->get('page');
+
         return redirect()->route('slide.index', ['page' => $page])->with('success', 'Slide đã được tạo thành công!');
     }
 
 
     /**
-     * Show the form for editing the specified resource.
+     * Hiển thị form chỉnh sửa slide.
      */
     public function edit($slide_id)
     {
@@ -58,8 +64,9 @@ class SlideController extends Controller
         return view('backend.slide.edit', compact('slide'));
     }
 
+
     /**
-     * Update the specified resource in storage.
+     * Cập nhật thông tin slide.
      */
     public function update(SlideRequest $request, $slide_id)
     {
@@ -71,21 +78,21 @@ class SlideController extends Controller
             'link' => $request->link
         ];
 
-        // Kiểm tra xem người dùng có chọn ảnh mới không
+        // Nếu có ảnh mới được tải lên
         if ($request->hasFile('image')) {
-            // Lưu ảnh mới vào thư mục 'slides' trong storage
+            // Lưu ảnh mới
             $imageName = $request->file('image')->store('Slides', 'public');
-            // Kiểm tra và xóa ảnh cũ nếu có
+
+            // Xóa ảnh cũ nếu tồn tại
             if ($slide->image && Storage::disk('public')->exists($slide->image)) {
                 Storage::disk('public')->delete($slide->image);
             }
 
             // Cập nhật trường tên ảnh mới
-
             $data['image'] = $imageName;
         }
 
-        // Cập nhật slide với dữ liệu mới
+        // Cập nhật dữ liệu
         $slide->update($data);
 
         $page = $request->get('page');
@@ -94,16 +101,18 @@ class SlideController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xóa slide khỏi hệ thống.
      */
     public function destroy($slide_id, Request $request)
     {
         $slide = slide::findOrFail($slide_id);
 
+        // Nếu slide có ảnh thì xóa ảnh khỏi storage
         if ($slide->image && Storage::disk('public')->exists($slide->image)) {
             Storage::disk('public')->delete($slide->image);
         }
 
+        // Xóa slide khỏi database
         $slide->delete();
 
         $page = $request->get('page');
