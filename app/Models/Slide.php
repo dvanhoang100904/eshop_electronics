@@ -9,6 +9,7 @@ class Slide extends Model
 {
     use HasFactory;
 
+    // Định nghĩa khóa chính slide_id của bảng slides
     protected $primaryKey = 'slide_id';
 
 

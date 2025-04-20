@@ -11,16 +11,20 @@ use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
+    // Định nghĩa số lượng đơn hàng hiển thị mỗi trang (dùng cho phân trang)
+    const PER_PAGES = 10;
+
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách đơn hàng với tính năng tìm kiếm.
      */
     public function index(Request $request)
     {
         $query = Order::query();
 
-
+        // Tìm kiếm theo mã đơn hàng hoặc tên/email khách hàng
         if ($request->has('search')) {
             $search = $request->search;
+
             $query->where('order_id', 'LIKE', "%$search%")
                 ->orWhereHas('user', function ($q) use ($search) {
                     $q->where('name', 'LIKE', "%$search%")
@@ -28,46 +32,47 @@ class OrderController extends Controller
                 });
         }
 
-        $perPage = 10;
-        $orders = $query->paginate($perPage)->appends($request->only('search'));
-
+        // Phân trang và giữ lại tham số tìm kiếm khi chuyển trang
+        $orders = $query->paginate(self::PER_PAGES)->appends($request->only('search'));
         return view('backend.order.index', compact('orders'));
     }
 
-
     /**
-     * Display the specified resource.
+     * Hiển thị chi tiết đơn hàng.
      */
     public function show($order_id)
     {
+        // Lấy thông tin đơn hàng theo order_id
         $order = Order::findOrFail($order_id);
         return view('backend.order.show', compact('order'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Hiển thị form chỉnh sửa đơn hàng.
      */
     public function edit($order_id)
     {
+
         $order = Order::findOrFail($order_id);
         return view('backend.order.edit', compact('order'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cập nhật trạng thái đơn hàng và trạng thái thanh toán.
      */
-
     public function update(UpdateOrderRequest $request, $order_id)
     {
-
         try {
             DB::beginTransaction();
 
+            // Lấy thông tin đơn hàng
             $order = Order::findOrFail($order_id);
+
+            // Cập nhật trạng thái đơn hàng
             $order->status = $request->status;
             $order->save();
 
-            // Cập nhật payment nếu tồn tại
+            // Cập nhật trạng thái và phương thức thanh toán nếu có
             $payment = $order->payment;
             if ($payment) {
                 $payment->status = $request->payment_status;
@@ -78,42 +83,45 @@ class OrderController extends Controller
             DB::commit();
 
             $page = $request->get('page');
-
             return redirect()->route('order.index', ['page' => $page])->with('success', 'Cập nhật đơn hàng thành công!');
         } catch (\Exception $e) {
             DB::rollBack();
+            // Ghi log lỗi để kiểm tra khi cần
             Log::error('Lỗi cập nhật đơn hàng: ' . $e->getMessage());
 
             return redirect()->route('order.index')->with('error', 'Cập nhật đơn hàng thất bại.');
         }
     }
 
-
     /**
-     * Remove the specified resource from storage.
+     * Xóa đơn hàng, bao gồm chi tiết đơn và thanh toán nếu có.
      */
-    public function destroy($order_id)
+    public function destroy($order_id, Request $request)
     {
         try {
             DB::beginTransaction();
 
+            // Tìm đơn hàng theo order_id
             $order = Order::findOrFail($order_id);
-            // Xoá các chi tiết đơn hàng liên quan
+
+            // Xóa các bản ghi chi tiết đơn hàng liên quan
             $order->orderDetails()->delete();
 
-            // Xoá thông tin thanh toán (nếu có)
+            // Xóa thanh toán nếu có
             if ($order->payment) {
                 $order->payment()->delete();
             }
 
-            // Xoá chính đơn hàng
+            // Xóa đơn hàng chính
             $order->delete();
 
             DB::commit();
 
-            return redirect()->route('order.index')->with('success', 'Đã xóa đơn hàng thành công.');
+            $page = $request->get('page');
+            return redirect()->route('order.index', ['page' => $page])->with('success', 'Đã xóa đơn hàng thành công.');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return redirect()->route('order.index')->with('error', 'Xóa đơn hàng thất bại: ' . $e->getMessage());
         }
     }

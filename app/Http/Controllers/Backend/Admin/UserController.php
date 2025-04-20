@@ -13,37 +13,44 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    // Định nghĩa số lượng người dùng hiển thị mỗi trang (dùng cho phân trang)
+    const PER_PAGES = 10;
+
     /**
-     * Display a listing of the resource.
+     * Hiển thị danh sách người dùng (có tìm kiếm và phân trang).
      */
     public function index(Request $request)
     {
         $query = User::query();
 
+        // Nếu có nhập từ khóa tìm kiếm, lọc theo tên hoặc email
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%')
                 ->orWhere('email', 'like', '%' . $request->search . '%');
         }
-        $perPage = 10;
-        $users = $query->paginate($perPage)->appends($request->only('search'));
+
+        // Phân trang và giữ nguyên tham số tìm kiếm khi chuyển trang
+        $users = $query->paginate(self::PER_PAGES)->appends($request->only('search'));
 
         return view('backend.user.index', compact('users'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Hiển thị form tạo người dùng mới.
      */
     public function create()
     {
+        // Lấy tất cả các vai trò để hiển thị trong form
         $roles = Role::all();
         return view('backend.user.create', compact('roles'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Lưu người dùng mới vào cơ sở dữ liệu.
      */
     public function store(StoreUserRequest $request)
     {
+        // Tạo mới người dùng với thông tin từ form
         User::create([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -52,13 +59,14 @@ class UserController extends Controller
             'role_id' => $request->role_id,
         ]);
 
+        // giữ lại trang hiện tại khi redirect
         $page = $request->get('page');
 
         return redirect()->route('user.index', ['page' => $page])->with('success', 'Người dùng đã được tạo thành công.');
     }
 
     /**
-     * Display the specified resource.
+     * Hiển thị chi tiết người dùng.
      */
     public function show($user_id)
     {
@@ -67,7 +75,7 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Hiển thị form chỉnh sửa thông tin người dùng.
      */
     public function edit($user_id)
     {
@@ -77,12 +85,13 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Cập nhật thông tin người dùng.
      */
     public function update(UpdateUserRequest $request, $user_id)
     {
         $user = User::findOrFail($user_id);
 
+        // Cập nhật thông tin, nếu có nhập mật khẩu mới thì mã hóa lại
         $user->update([
             'name' => $request->name,
             'phone' => $request->phone,
@@ -97,12 +106,13 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Xóa người dùng khỏi hệ thống.
      */
     public function destroy($user_id, Request $request)
     {
         $user = User::findOrFail($user_id);
 
+        // Không cho phép xóa chính mình (bảo vệ user đang đăng nhập)
         if (auth()->id() === $user->user_id) {
             return redirect()->route('user.index')->withErrors('Không thể xóa chính bạn.');
         }
