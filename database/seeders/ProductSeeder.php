@@ -52,7 +52,7 @@ class ProductSeeder extends Seeder
                 Product::create([
                     'name' => $name,
                     'description' => $faker->sentence(20),
-                    'price' => $faker->randomFloat(2, 1000, 50000),
+                    'price' => $faker->numberBetween(100, 5000) * 1000,
                     'image' => 'products/' . ($imageNames[$category->name] ?? 'default.jpg'),
                     'category_id' => $category->category_id,
                     'is_featured' => $faker->boolean(30),

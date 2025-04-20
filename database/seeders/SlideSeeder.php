@@ -17,21 +17,21 @@ class SlideSeeder extends Seeder
             'image' => 'images/slide1.jpg',
             'title' => 'Sản phẩm công nghệ mới',
             'description' => 'Khám phá những sản phẩm công nghệ mới với mức giá hấp dẫn.',
-            'link' => 'https://example.com/san-pham-moi',
+            'link' => 'http://127.0.0.1:8000/',
         ]);
 
         Slide::create([
             'image' => 'images/slide2.jpg',
             'title' => 'Giảm giá 50%',
             'description' => 'Nhanh tay mua sắm các sản phẩm giảm giá lên đến 50%.',
-            'link' => 'https://example.com/giam-gia',
+            'link' => 'http://127.0.0.1:8000/',
         ]);
 
         Slide::create([
             'image' => 'images/slide3.jpg',
             'title' => 'Phụ kiện chính hãng',
             'description' => 'Mua phụ kiện chính hãng với bảo hành dài hạn.',
-            'link' => 'https://example.com/phu-kien',
+            'link' => 'http://127.0.0.1:8000/',
         ]);
     }
 }
