@@ -28,6 +28,7 @@ use App\Http\Controllers\Fronted\Customer\OrderController as CustomerOrderContro
 */
 
 /* admin */
+
 route::prefix('admin')->group(function () {
     // login
     Route::get('login', [AdminAuthController::class, 'login'])->name('admin.login')->middleware('redirectIf.admin.auth');
