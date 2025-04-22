@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fronted\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddToCartRequest;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Cart;
@@ -18,7 +19,7 @@ class CartController extends Controller
         $user_id = auth()->check() ? auth()->id() : null;
         $session_id = session()->getId();
 
-        // Tìm giỏ hàng của người dùng hoặc của guest theo session
+        // Tìm giỏ hàng theo user_id (nếu đăng nhập) hoặc session_id
         $cart = Cart::with('cartItems.product')
             ->where(function ($q) use ($user_id, $session_id) {
                 if ($user_id) {
@@ -50,7 +51,7 @@ class CartController extends Controller
     /**
      * Thêm sản phẩm vào giỏ hàng.
      */
-    public function addToCart(Request $request)
+    public function addToCart(AddToCartRequest $request)
     {
         // Lấy thông tin sản phẩm và số lượng từ request
         $product_id = $request->input('product_id');
@@ -62,9 +63,11 @@ class CartController extends Controller
         $user_id = auth()->check() ? auth()->id() : null;
         $session_id = session()->getId();
 
-        // Tìm giỏ hàng của người dùng hoặc của guest theo session
+        // Chỉ dùng user_id hoặc session_id tùy trường hợp
         $cart = Cart::firstOrCreate(
-            ['user_id' => $user_id, 'session_id' => $session_id]
+            $user_id ? ['user_id' => $user_id] : ['session_id' => $session_id],
+            // đảm bảo session_id luôn được set
+            ['session_id' => $session_id]
         );
 
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
@@ -84,7 +87,7 @@ class CartController extends Controller
         }
 
         // Redirect lại trang giỏ hàng
-        return redirect()->route('customer.cart');
+        return redirect()->route('customer.cart')->with('success', 'Đã thêm sản phẩm vào giỏ hàng');
     }
 
     /**

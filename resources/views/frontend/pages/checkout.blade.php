@@ -15,8 +15,8 @@
                                 @foreach ($cartItems as $item)
                                     <div class="row align-items-center mb-5">
                                         <div class="col-md-2">
-                                            <img src="{{ $item->product->image }}" class="img-fluid rounded"
-                                                alt="{{ $item->product->name }}" />
+                                            <img src="{{ asset('storage/' . $item->product->image) }}"
+                                                class="img-fluid rounded" alt="{{ $item->product->name }}" />
                                         </div>
                                         <div class="col-md-4">
                                             <h6 class="mb-1">{{ $item->product->name }}</h6>
