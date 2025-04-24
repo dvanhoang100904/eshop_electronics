@@ -5,11 +5,12 @@ use App\Http\Controllers\Backend\Admin\AdminAuthController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\UserController;
 use App\Http\Controllers\Backend\Admin\ProductController;
-use App\Http\Controllers\Backend\Admin\CategoryController;
+use App\Http\Controllers\Backend\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Backend\Admin\SlideController;
 
 use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
+use App\Http\Controllers\Fronted\Customer\CategoryController as CustomerCategoryController;
 
 
 /*
@@ -86,17 +87,17 @@ route::prefix('admin')->group(function () {
     // CRUD Categories
     Route::middleware('require.admin.login')->group(function () {
         // index
-        Route::get('categories', [CategoryController::class, 'index'])->name('category.index');
+        Route::get('categories', [AdminCategoryController::class, 'index'])->name('category.index');
         // create
-        Route::get('categories/create', [CategoryController::class, 'create'])->name('category.create');
-        Route::post('categories', [CategoryController::class, 'store'])->name('category.store');
+        Route::get('categories/create', [AdminCategoryController::class, 'create'])->name('category.create');
+        Route::post('categories', [AdminCategoryController::class, 'store'])->name('category.store');
         // show
-        Route::get('categories/{category_id}', [CategoryController::class, 'show'])->name('category.show');
+        Route::get('categories/{category_id}', [AdminCategoryController::class, 'show'])->name('category.show');
         // edit
-        Route::get('categories/{category_id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-        Route::put('categories/{category_id}', [CategoryController::class, 'update'])->name('category.update');
+        Route::get('categories/{category_id}/edit', [AdminCategoryController::class, 'edit'])->name('category.edit');
+        Route::put('categories/{category_id}', [AdminCategoryController::class, 'update'])->name('category.update');
         // delete
-        Route::delete('categories/{category_id}', [CategoryController::class, 'destroy'])->name('category.destroy');
+        Route::delete('categories/{category_id}', [AdminCategoryController::class, 'destroy'])->name('category.destroy');
     });
 });
 
@@ -105,6 +106,8 @@ route::prefix('admin')->group(function () {
 
 // home
 Route::get('/', [HomeController::class, 'index'])->name('customer.index');
+
+Route::get('category/{slug}', [CustomerCategoryController::class, 'showProductsByCategory'])->name('customer.category.products');
 
 // login
 Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('redirectIf.customer.auth');

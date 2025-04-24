@@ -188,3 +188,41 @@ body {
 .add-to-cart-btn:hover {
     background-color: var(--primary-hover) !important;
 }
+
+/* Custom pagination styles */
+.page-link {
+    min-width: 40px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.page-link:hover {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    color: #f13d3d;
+}
+
+.page-item.active .page-link {
+    background-color: #f13d3d;
+    border-color: #f13d3d;
+    color: white;
+}
+
+.page-item.disabled .page-link {
+    color: #adb5bd;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
+
+/* Product card improvements */
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}

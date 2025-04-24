@@ -1,4 +1,4 @@
-@extends('frontend.layouts.customer')
+@extends('frontend.layouts.customer-layout')
 
 @section('title', 'Đăng Nhập')
 
