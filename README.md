@@ -54,17 +54,51 @@
     ```
 
 2. Tạo các thư mục chứa hình ảnh nếu chưa có:
+
+    Products
     ```bash
     mkdir -p public/storage/products
+    ```
+    Categories
+    ```bash
     mkdir -p public/storage/categories
+    ```
+    Slides
+    ```bash
     mkdir -p public/storage/slides
     ```
+    
 
-### 4. Tạo bảng và seed dữ liệu mẫu
+### 4. Các câu lệnh để tạo bảng và xóa bảng và tạo dữ liệu mẫu
 
 1. Chạy lệnh migrate để tạo bảng và seed dữ liệu mẫu:
+   Tạo bảng:
     ```bash
-    php artisan migrate --seed
+    php artisan migrate
+    ```
+    
+   Xóa bảng:
+   ```bash
+    php artisan migrate:rollback
+    ```
+   Hoặc
+   ```bash
+    php artisan migrate:reset
+    ```
+    
+   Tạo dữ liệu mẫu:
+    ```bash
+    php artisan db:seed
+    ```
+
+   Xóa bảng + tạo bảng:
+    ```bash
+    php artisan migrate:refresh
+    ```
+    
+   Xóa bảng + tạo bảng + tạo dữ liệu mẫu
+    ```bash
+    php artisan migrate:refresh --seed
     ```
 
 ### 5. Chạy ứng dụng
