@@ -1,7 +1,30 @@
+/* navbar */
+
+.navbar-gradient {
+    background: linear-gradient(135deg, #141e30, #243b55);
+}
+.navbar-gradient .navbar-brand,
+.navbar-gradient .nav-link,
+.navbar-gradient .dropdown-menu,
+.navbar-gradient .dropdown-item {
+    color: white !important;
+}
+.navbar-gradient .dropdown-menu {
+    background-color: #1e3c72;
+}
+.navbar-gradient .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* footer */
+.footer-gradient {
+    background: linear-gradient(135deg, #243b55, #141e30);
+}
+
 /* Sidebar */
 .sidebar {
     width: 250px;
-    background: #2c3e50;
+    background: linear-gradient(135deg, #141e30, #243b55);
     color: white;
     min-height: 100vh;
     padding: 20px;
@@ -31,14 +54,14 @@
 }
 
 .sidebar a:hover {
-    background: #e74c3c;
+    background: rgba(255, 255, 255, 0.1);
     padding-left: 20px;
     color: white;
     font-size: 18px;
 }
 
 .sidebar a.active {
-    background: #e74c3c;
+    background: rgba(255, 255, 255, 0.1);
     color: white;
     font-weight: bold;
 }
@@ -60,7 +83,7 @@
 }
 
 .page-item.active .page-link {
-    background-color: #de7777;
+    background-color: #2a5298;
     border-color: #fff;
     color: white;
 }

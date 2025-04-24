@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\UserController;
 use App\Http\Controllers\Backend\Admin\ProductController;
 use App\Http\Controllers\Backend\Admin\CategoryController;
+use App\Http\Controllers\Backend\Admin\SlideController;
 
 use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
@@ -65,6 +66,20 @@ route::prefix('admin')->group(function () {
         Route::put('products/{product_id}', [ProductController::class, 'update'])->name('product.update');
         // delete
         Route::delete('products/{product_id}', [ProductController::class, 'destroy'])->name('product.destroy');
+    });
+
+    // CRUD Slide
+    Route::middleware('require.admin.login')->group(function () {
+        // index
+        Route::get('slides', [SlideController::class, 'index'])->name('slide.index');
+        // create
+        Route::get('slides/create', [SlideController::class, 'create'])->name('slide.create');
+        Route::post('/slides', [SlideController::class, 'store'])->name('slides.store');
+        // edit
+        Route::get('slides/{slide_id}/edit', [SlideController::class, 'edit'])->name('slide.edit');
+        Route::put('slides/{slide_id}', [SlideController::class, 'update'])->name('slide.update');
+        // delete
+        Route::delete('slides/{slide_id}', [SlideController::class, 'destroy'])->name('slide.destroy');
     });
 
 

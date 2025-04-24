@@ -1,5 +1,6 @@
    <!-- NAVBAR -->
-   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+   <nav class="navbar navbar-expand-lg navbar-dark navbar-gradient sticky-top">
+
        <div class="container-fluid">
            <a class="navbar-brand" href="#"><i class="fas fa-store"></i> Admin Dashboard</a>
            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
