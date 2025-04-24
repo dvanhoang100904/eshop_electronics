@@ -26,9 +26,9 @@
     ```bash
     cd eshop_electronics
     ```
-4. Checkout vào nhánh `laravel_project`:
+4. Checkout vào nhánh `laravel-project`:
     ```bash
-    git checkout laravel_project
+    git checkout laravel-project
     ```
 
 ### 2. Cấu hình môi trường `.env`
