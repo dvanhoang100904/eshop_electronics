@@ -13,7 +13,7 @@
 
 ### 1. Clone source và checkout đúng nhánh
 
-> **Lưu ý:** Dự án nằm ở nhánh `laravel_project`, bạn cần checkout nhánh này sau khi clone.
+> **Lưu ý:** Dự án nằm ở nhánh `laravel-project`, bạn cần checkout nhánh này sau khi clone.
 
 **Các bước thực hiện:**
 
