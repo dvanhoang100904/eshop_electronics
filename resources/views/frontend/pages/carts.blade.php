@@ -19,8 +19,8 @@
                                     <div class="row align-items-center mb-5">
                                         <!-- image -->
                                         <div class="col-md-2">
-                                            <img src="{{ $cartItem->product->image }}" class="img-fluid rounded"
-                                                alt="{{ $cartItem->product->name }}" />
+                                            <img src="{{ asset('storage/' . $cartItem->product->image) }}"
+                                                class="img-fluid rounded" alt="{{ $cartItem->product->name }}" />
                                         </div>
 
                                         <!-- name -->

@@ -37,7 +37,15 @@ class Category extends Model
     {
         static::creating(function ($category) {
             if (empty($category->slug)) {
-                $category->slug = Str::slug($category->name) . '-' . uniqid();
+                // Tạo slug ban đầu từ tên danh mục
+                $slug = Str::slug($category->name);
+
+                // Kiểm tra slug đã tồn tại chưa, nếu có thì thêm mã số ngẫu nhiên
+                while (Category::where('slug', $slug)->exists()) {
+                    $slug = Str::slug($category->name) . '-' . uniqid();
+                }
+
+                $category->slug = $slug;
             }
         });
     }

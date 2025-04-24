@@ -18,7 +18,7 @@
                                     <div class="position-relative">
                                         <a class="text-dark text-decoration-none"
                                             href="{{ route('customer.product.show', $product->slug) }} ">
-                                            <img src="{{ asset('storage/' . $product->name) }}"
+                                            <img src="{{ asset('storage/' . $product->image) }}"
                                                 class="card-img-top product-img" alt="{{ $product->name }}" />
                                         </a>
                                     </div>
