@@ -7,8 +7,9 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
+
 
 class UserController extends Controller
 {
@@ -23,10 +24,10 @@ class UserController extends Controller
             $query->where('name', 'like', '%' . $request->search . '%')
                 ->orWhere('email', 'like', '%' . $request->search . '%');
         }
+        $perPage = 10;
+        $users = $query->paginate($perPage)->appends($request->only('search'));
 
-        $users = $query->paginate(10);
-
-        return view('backend.user.list', compact('users'));
+        return view('backend.user.index', compact('users'));
     }
 
     /**
@@ -34,7 +35,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('backend.user.create');
+        $roles = Role::all();
+        return view('backend.user.create', compact('roles'));
     }
 
     /**
@@ -50,7 +52,9 @@ class UserController extends Controller
             'role_id' => $request->role_id,
         ]);
 
-        return redirect()->route('user.list')->with('success', 'Người dùng đã được tạo thành công.');
+        $page = $request->get('page');
+
+        return redirect()->route('user.index', ['page' => $page])->with('success', 'Người dùng đã được tạo thành công.');
     }
 
     /**
@@ -59,7 +63,7 @@ class UserController extends Controller
     public function show($user_id)
     {
         $user = User::findOrFail($user_id);
-        return view('backend.user.detail', compact('user'));
+        return view('backend.user.show', compact('user'));
     }
 
     /**
@@ -68,7 +72,8 @@ class UserController extends Controller
     public function edit($user_id)
     {
         $user = User::findOrFail($user_id);
-        return view('backend.user.update', compact('user'));
+        $roles = Role::all();
+        return view('backend.user.edit', compact('user', 'roles'));
     }
 
     /**
@@ -86,22 +91,26 @@ class UserController extends Controller
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 
-        return redirect()->route('user.list')->with('success', 'Thông tin người dùng đã được cập nhật.');
+        $page = $request->get('page');
+
+        return redirect()->route('user.index', ['page' => $page])->with('success', 'Thông tin người dùng đã được cập nhật.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($user_id)
+    public function destroy($user_id, Request $request)
     {
         $user = User::findOrFail($user_id);
 
         if (auth()->id() === $user->user_id) {
-            return redirect()->route('user.list')->withErrors('Không thể xóa chính bạn.');
+            return redirect()->route('user.index')->withErrors('Không thể xóa chính bạn.');
         }
 
         $user->delete();
 
-        return redirect()->route('user.list')->with('success', 'Người dùng đã bị xóa.');
+        $page = $request->get('page');
+
+        return redirect()->route('user.index', ['page' => $page])->with('success', 'Người dùng đã bị xóa.');
     }
 }

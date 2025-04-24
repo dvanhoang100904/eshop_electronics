@@ -1,0 +1,125 @@
+@php
+    use Illuminate\Support\Str;
+@endphp
+
+@extends('backend.layouts.admin')
+
+@section('content')
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h5 mb-0 fw-bold">
+                    <i class="fas fa-boxes me-2"></i>Danh Sách Sản Phẩm
+                </h2>
+                <a href="{{ route('product.create') }}?page={{ request()->get('page') }}" class="btn btn-success btn-sm">
+                    <i class="fas fa-plus-circle me-1"></i> Thêm
+                </a>
+            </div>
+
+            <!-- Search Form -->
+            <div class="mb-4">
+                <form action="{{ route('product.index') }}?page={{ request()->get('page') }}" method="GET" class="w-100">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0" name="search"
+                            placeholder="Tìm kiếm sản phẩm..." value="{{ request()->search }}">
+                        <button class="btn btn-primary" type="submit">Tìm</button>
+                    </div>
+                </form>
+            </div>
+
+            {{-- Products Table --}}
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-primary">
+                        <tr>
+                            <th width="80" class="text-center">Mã</th>
+                            <th>Tên</th>
+                            <th>Mô tả</th>
+                            <th width="120" class="text-end">Giá</th>
+                            <th width="120">Hình ảnh</th>
+                            <th width="180" class="text-center">Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($products as $product)
+                            <tr>
+                                <td class="text-center fw-bold">{{ $product->product_id }}</td>
+                                <td>{{ $product->name }}</td>
+                                <td>
+                                    {{ Str::limit($product->description, 20) }}
+                                    @if (Str::length($product->description) > 20)
+                                        <a href="{{ route('product.show', $product->product_id) }}?page={{ request()->get('page') }}"
+                                            class="text-decoration-none">…</a>
+                                    @endif
+                                </td>
+                                <td class="text-end">{{ number_format($product->price) }} VND</td>
+                                <td class="text-center">
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                        class="img-thumbnail" width="80" height="80" style="object-fit: cover;">
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="{{ route('product.show', $product->product_id) }}?page={{ request()->get('page') }}"
+                                            class="btn btn-sm btn-info" title="Xem" data-bs-toggle="tooltip">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('product.edit', $product->product_id) }}?page={{ request()->get('page') }}"
+                                            class="btn btn-sm btn-warning" title="Chỉnh sửa" data-bs-toggle="tooltip">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form
+                                            action="{{ route('product.destroy', $product->product_id) }}?page={{ request()->get('page') }}"
+                                            method="POST" style="display:inline;"
+                                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Xóa"
+                                                data-bs-toggle="tooltip">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            {{-- Pagination --}}
+            @if ($products->hasPages())
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <div class="text-muted">
+                        Hiển thị từ <strong>{{ $products->firstItem() }}</strong> đến
+                        <strong>{{ $products->lastItem() }}</strong>
+                        trong tổng số <strong>{{ $products->total() }}</strong> sản phẩm
+                    </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item {{ $products->onFirstPage() ? 'disabled' : '' }}">
+                                <a class="page-link" href="{{ $products->previousPageUrl() }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+
+                            @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                                <li class="page-item {{ $page == $products->currentPage() ? 'active' : '' }}">
+                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                </li>
+                            @endforeach
+
+                            <li class="page-item {{ $products->hasMorePages() ? '' : 'disabled' }}">
+                                <a class="page-link" href="{{ $products->nextPageUrl() }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            @endif
+        </div>
+    </div>
+@endsection

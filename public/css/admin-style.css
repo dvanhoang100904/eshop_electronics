@@ -53,47 +53,6 @@
     }
 }
 
-/* Table */
-.table {
-    font-size: 14px;
-}
-
-.table th {
-    background-color: #f8f9fa;
-    color: #495057;
-}
-
-.table td {
-    background-color: #fff;
-}
-
-.table .btn {
-    transition: transform 0.2s ease;
-}
-
-.table .btn:hover {
-    transform: scale(1.1);
-}
-
-.table .btn-info {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
-}
-
-.table .btn-warning {
-    background-color: #ffc107;
-    border-color: #ffc107;
-}
-
-.table .btn-danger {
-    background-color: #e74c3c;
-    border-color: #e74c3c;
-}
-
-.table-responsive {
-    margin-top: 20px;
-}
-
 /* Pagination */
 .pagination {
     justify-content: center;
@@ -109,6 +68,7 @@
     color: #495057;
 }
 
+/* search */
 .search-container {
     display: flex;
     justify-content: space-between;

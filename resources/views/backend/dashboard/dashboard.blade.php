@@ -1,38 +1,77 @@
 @extends('backend.layouts.admin')
 
 @section('content')
-    <h2 class="text-dark">Chào mừng bạn đến với Trang Quản Trị</h2>
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
+    <div class="dashboard-header">
+        <h1 class="text-dark mb-4">Dashboard</h1>
+        <p class="text-muted">Tổng quan hệ thống và thống kê nhanh</p>
+    </div>
+
+    <div class="row mb-4">
+        <!-- Thống kê tổng quan -->
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card bg-primary-gradient">
                 <div class="card-body">
-                    <i class="fas fa-box fa-2x"></i>
-                    <h5 class="mt-2">20 Sản Phẩm</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <i class="fas fa-list fa-2x"></i>
-                    <h5 class="mt-2">5 Danh Mục</h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <i class="fas fa-users fa-2x"></i>
-                    <h5 class="mt-2">{{ $userCount }} Người Dùng</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="stat-title">SẢN PHẨM</h6>
+                            <h3 class="stat-value">{{ $totalProducts }}</h3>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="card bg-danger text-white">
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card bg-warning-gradient">
                 <div class="card-body">
-                    <i class="fas fa-shopping-cart fa-2x"></i>
-                    <h5 class="mt-2">12 Đơn Hàng</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="stat-title">DANH MỤC</h6>
+                            <h3 class="stat-value">5</h3>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card bg-success-gradient">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="stat-title">NGƯỜI DÙNG</h6>
+                            <h3 class="stat-value">{{ $totalUsers }}</h3>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card bg-danger-gradient">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="stat-title">ĐƠN HÀNG</h6>
+                            <h3 class="stat-value">12</h3>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
