@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Order;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,8 +25,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
-            SlideSeeder::class
-
+            ShippingAddressSeeder::class,
+            OrderSeeder::class,
+            OrderDetailSeeder::class,
+            PaymentSeeder::class,
+            SlideSeeder::class,
         ]);
     }
 }

@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'phone' => '0123456789',
         ]);
 
-        for ($i = 1; $i <= 30; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             User::create([
                 'name' => 'Customer ' . $i,
                 'email' => 'Customer' . $i . '@gmail.com',

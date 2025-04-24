@@ -12,7 +12,7 @@ use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
 use App\Http\Controllers\Fronted\Customer\CategoryController as CustomerCategoryController;
 use App\Http\Controllers\Fronted\Customer\ProductController as CustomerProductController;
-
+use App\Http\Controllers\Fronted\Customer\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,6 +115,14 @@ Route::get('/san-pham/{slug}', [CustomerProductController::class, 'show'])->name
 Route::get('/tim-kiem', [CustomerProductController::class, 'search'])->name('customer.product.search');
 
 Route::get('/danh-muc/{slug}', [CustomerCategoryController::class, 'showProductsByCategory'])->name('customer.category.products');
+
+// cart
+route::get('/gio-hang', [CartController::class, 'index'])->name('customer.cart');
+Route::post('/them-vao-gio-hang', [CartController::class, 'addToCart'])->name('customer.addToCart');
+Route::post('/gio-hang/update', [CartController::class, 'updateCart'])->name('customer.updateCart');
+Route::post('/gio-hang/remove', [CartController::class, 'removeFromCart'])->name('customer.removeFromCart');
+
+
 
 
 
