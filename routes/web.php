@@ -22,14 +22,15 @@ use App\Http\Controllers\Fronted\Customer\HomeController;
 |
 */
 
-// admin
+/* admin */
+
 route::prefix('admin')->group(function () {
     // login
     Route::get('login', [AdminAuthController::class, 'login'])->name('admin.login')->middleware('redirectIf.admin.auth');
-    Route::post('login', [AdminAuthController::class, 'authLogin'])->name('admin.authLogin');
+    Route::post('login', [AdminAuthController::class, 'authLogin'])->name('admin.authLogin')->middleware('redirectIf.admin.auth');
 
     // logout
-    Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+    Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout')->middleware('auth');
 
     // dashboard
     Route::get('/', [DashboardController::class, 'dashboard'])->name('admin.dashboard')->middleware('require.admin.login');
@@ -84,15 +85,19 @@ route::prefix('admin')->group(function () {
     });
 });
 
-// Customer 
-Route::prefix('/')->group(function () {
-    // login
-    Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('redirectIf.customer.auth');
-    Route::post('login', [CustomerAuthController::class, 'authLogin'])->name('customer.authLogin');
 
-    // logout
-    Route::post('logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
+/* customer */
 
-    // home
-    Route::get('/', [HomeController::class, 'index'])->name('customer.index');
-});
+// home
+Route::get('/', [HomeController::class, 'index'])->name('customer.index');
+
+// login
+Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('redirectIf.customer.auth');
+Route::post('login', [CustomerAuthController::class, 'authLogin'])->name('customer.authLogin')->middleware('redirectIf.customer.auth');
+
+// register
+route::get('register', [CustomerAuthController::class, 'register'])->name('customer.register')->middleware('redirectIf.customer.auth');
+route::post('register', [CustomerAuthController::class, 'authRegister'])->name('customer.authRegister')->middleware('redirectIf.customer.auth');;
+
+// logout
+Route::post('logout', [CustomerAuthController::class, 'logout'])->name('customer.logout')->middleware('auth');

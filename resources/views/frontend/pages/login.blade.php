@@ -16,22 +16,28 @@
                         <div class="card-body">
                             <form method="POST" role="form" action="{{ route('customer.authLogin') }}">
                                 @csrf
+
+                                {{-- email --}}
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="email" type="email" name="email"
+                                    <input class="form-control mb-1" id="email" type="email" name="email"
                                         placeholder="Email" value="{{ old('email') }}" autofocus />
                                     <label for="email">Email </label>
+                                    @if ($errors->has('email'))
+                                        <span class="text-danger">{{ $errors->first('email') }}</span>
+                                    @endif
                                 </div>
-                                @if ($errors->has('email'))
-                                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                                @endif
+
+
+                                {{-- password --}}
                                 <div class="form-floating mb-3">
-                                    <input class="form-control" id="password" type="password" name="password"
+                                    <input class="form-control mb-1" id="password" type="password" name="password"
                                         placeholder="Password" />
-                                    <label for="password">Password</label>
+                                    <label for="password">Mật khẩu</label>
+                                    @if ($errors->has('password'))
+                                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                                    @endif
                                 </div>
-                                @if ($errors->has('password'))
-                                    <span class="text-danger">{{ $errors->first('password') }}</span>
-                                @endif
+
                                 <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
                                     <a class="small text-dark text-decoration-none me-3" href="#!">Quên mật
                                         khẩu?</a>
@@ -41,8 +47,9 @@
                             </form>
                         </div>
                         <div class="card-footer text-center py-3">
-                            <div class="small">
-                                <a class="text-dark text-decoration-none" href="register.html">Tạo tài khoản!</a>
+                            <div class="small">Bạn chưa có tài khoản?
+                                <a class="text-danger text-decoration-none" href="{{ route('customer.register') }}">Đăng ký
+                                    ngay</a>
                             </div>
                         </div>
                     </div>

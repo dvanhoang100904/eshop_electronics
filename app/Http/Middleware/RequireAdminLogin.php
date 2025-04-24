@@ -16,13 +16,15 @@ class RequireAdminLogin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
+        $user = Auth::user();
+        if (!$user) {
             return redirect()->route('admin.login')->withErrors('Vui lòng đăng nhập để truy cập trang quản trị!');
         }
 
-        if (Auth::user()->role_id !== 1) {
+        if ($user->role_id !== 1) {
             return redirect()->route('customer.login')->withErrors('Bạn không có quyền truy cập vào trang quản trị!');
         }
+
         return $next($request);
     }
 }

@@ -16,8 +16,16 @@ class RedirectIfAdminAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role_id === 1) {
-            return redirect()->route('admin.dashboard')->with('info', 'Bạn đã đăng nhập rồi');
+        $user = Auth::user();
+
+        if ($user) {
+            if ($user->role_id === 1) {
+                return redirect()->route('admin.dashboard')->with('info', 'Bạn đã đăng nhập rồi');
+            }
+
+            if ($user->role_id === 2) {
+                return redirect()->route('customer.index')->with('info', 'Bạn đã đăng nhập rồi');
+            }
         }
 
         return $next($request);
