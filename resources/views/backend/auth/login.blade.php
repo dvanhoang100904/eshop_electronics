@@ -25,57 +25,80 @@
 
 </head>
 
-<body>
-    <!-- main -->
+<body class="bg-light">
     <main>
         <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-5">
                     <div class="card shadow-lg border-0 rounded-lg mt-5">
-                        <div class="card-header">
-                            <h3 class="text-center font-weight-light my-4">Đăng Nhập</h3>
+                        <div class="card-header bg-danger text-white text-center">
+                            <img src="./images/logo.png" alt="Logo" class="mb-3" style="height: 50px;">
+                            <h3>Đăng Nhập Hệ Thống</h3>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-4">
                             @if (session('success'))
-                                <div class="alert alert-success">{{ session('success') }}</div>
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
                             @endif
 
                             <form method="POST" role="form" action="{{ route('admin.authLogin') }}">
                                 @csrf
-                                {{-- email --}}
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="email" type="email" name="email"
-                                        placeholder="Email" value="{{ old('email') }}" autofocus />
-                                    <label for="email">Email </label>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                        <input class="form-control" id="email" type="email" name="email"
+                                            placeholder="Nhập email" value="{{ old('email') }}" autofocus />
+                                    </div>
+                                    @if ($errors->has('email'))
+                                        <div class="text-danger small mt-1">{{ $errors->first('email') }}</div>
+                                    @endif
                                 </div>
-                                @if ($errors->has('email'))
-                                    <span class="text-danger">{{ $errors->first('email') }}</span>
-                                @endif
 
-                                {{-- password --}}
-                                <div class="form-floating mb-3">
-                                    <input class="form-control" id="password" type="password" name="password"
-                                        placeholder="Password" />
-                                    <label for="password">Password</label>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Mật khẩu</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                        <input class="form-control" id="password" type="password" name="password"
+                                            placeholder="Nhập mật khẩu" />
+                                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    @if ($errors->has('password'))
+                                        <div class="text-danger small mt-1">{{ $errors->first('password') }}</div>
+                                    @endif
                                 </div>
-                                @if ($errors->has('password'))
-                                    <span class="text-danger"> {{ $errors->first('password') }}</span>
-                                @endif
 
-                                <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
-                                    <a href="#!" class="small text-light text-decoration-none me-3"
-                                        href="#!">Quên mật
-                                        khẩu?</a>
-                                    <button type="submit" class="btn btn-danger">Đăng
-                                        nhập</button>
+                                <div class="mb-3 d-flex justify-content-between align-items-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                        <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
+                                    </div>
+                                    <a href="#!" class="text-decoration-none">Quên mật khẩu?</a>
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-danger btn-lg">
+                                        <i class="fas fa-sign-in-alt me-2"></i> Đăng nhập
+                                    </button>
                                 </div>
                             </form>
+                        </div>
+                        <div class="card-footer text-center py-3">
+                            <small class="text-muted">© 2025 Login Admin.</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    {{-- my js --}}
+    <script src="{{ asset('js/admin.js') }}"></script>
 
     <!-- Nhúng js bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

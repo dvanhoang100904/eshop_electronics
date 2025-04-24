@@ -42,6 +42,8 @@
         Copyright © 2025 Admin Dashboard.
     </footer>
 
+    {{-- my js --}}
+    <script src="{{ asset('js/admin.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

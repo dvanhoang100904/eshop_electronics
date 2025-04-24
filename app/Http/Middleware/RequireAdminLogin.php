@@ -21,7 +21,7 @@ class RequireAdminLogin
         }
 
         if (Auth::user()->role_id !== 1) {
-            return redirect()->route('home')->withErrors('Bạn không có quyền truy cập vào trang quản trị!');
+            return redirect()->route('customer.login')->withErrors('Bạn không có quyền truy cập vào trang quản trị!');
         }
         return $next($request);
     }

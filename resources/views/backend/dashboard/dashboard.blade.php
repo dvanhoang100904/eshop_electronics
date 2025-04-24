@@ -23,7 +23,7 @@
             <div class="card bg-success text-white">
                 <div class="card-body">
                     <i class="fas fa-users fa-2x"></i>
-                    <h5 class="mt-2">15 Người Dùng</h5>
+                    <h5 class="mt-2">{{ $userCount }} Người Dùng</h5>
                 </div>
             </div>
         </div>
