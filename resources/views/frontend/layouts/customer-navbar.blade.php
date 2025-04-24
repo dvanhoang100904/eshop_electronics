@@ -14,17 +14,19 @@
                         href="{{ route('customer.index') }}">Trang Chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./product.html">Sản Phẩm</a>
+                    <a class="nav-link {{ request()->is('/san-pham') ? 'active' : '' }}"
+                        href="{{ route('customer.product') }}">Sản
+                        Phẩm</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle {{ request()->is('/category') ? 'active' : '' }}" href="#"
+                    <a class="nav-link dropdown-toggle {{ request()->is('/danh-muc') ? 'active' : '' }}" href="#"
                         id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Danh Mục
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         @foreach ($categories as $category)
                             <li>
-                                <a class="dropdown-item {{ request()->is('category/' . $category->slug) ? 'active' : '' }}"
+                                <a class="dropdown-item {{ request()->is('danh-muc/' . $category->slug) ? 'active' : '' }}"
                                     href="{{ route('customer.category.products', $category->slug) }}">
                                     <i class="fas fa-tag me-2 text-danger"></i>{{ $category->name }}
                                 </a>

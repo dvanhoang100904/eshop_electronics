@@ -45,6 +45,18 @@
                             @endif
                         </div>
 
+                        <!-- slug -->
+                        <div class="mb-4">
+                            <label for="slug" class="form-label fw-bold">Slug</label>
+                            <input type="text" name="slug" id="slug" class="form-control form-control-lg"
+                                value="{{ old('slug', $product->slug) }}" />
+                            @if ($errors->has('slug'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('slug') }}
+                                </div>
+                            @endif
+                        </div>
+
                         {{-- Description --}}
                         <div class="mb-4">
                             <label for="description" class="form-label fw-bold">Mô tả</label>
@@ -124,7 +136,8 @@
                             <div class="form-check">
                                 <input type="hidden" name="is_featured" value="0" />
                                 <input type="checkbox" name="is_featured" id="featured" class="form-check-input"
-                                    value="1" {{ old('is_featured', $product->is_featured ?? 0) ? 'checked' : '' }} />
+                                    value="1"
+                                    {{ old('is_featured', $product->is_featured ?? 0) ? 'checked' : '' }} />
                                 <label for="featured" class="form-check-label">Nổi bật</label>
                             </div>
                             @if ($errors->has('is_featured'))

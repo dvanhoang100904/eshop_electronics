@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -59,13 +60,16 @@ class ProductController extends Controller
             $imageName = $request->file('image')->store('products', 'public');
         }
 
+        $slug = $request->slug ?: Str::slug($request->name, '-');
+
         Product::create([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'image' =>   $imageName,
             'category_id' => $request->category_id,
-            'is_featured' => $request->is_featured
+            'is_featured' => $request->is_featured,
+            'slug' => $slug
 
         ]);
 
@@ -100,12 +104,15 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($product_id);
 
+        $slug = $request->slug ?: Str::slug($request->name, '-');
+
         $data = [
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'category_id' => $request->category_id,
-            'is_featured' => $request->is_featured
+            'is_featured' => $request->is_featured,
+            'slug' => $request->$slug
         ];
 
         if ($request->hasFile('image')) {

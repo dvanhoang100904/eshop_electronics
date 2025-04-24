@@ -4,13 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Admin\AdminAuthController;
 use App\Http\Controllers\Backend\Admin\DashboardController;
 use App\Http\Controllers\Backend\Admin\UserController;
-use App\Http\Controllers\Backend\Admin\ProductController;
+use App\Http\Controllers\Backend\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Backend\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Backend\Admin\SlideController;
 
 use App\Http\Controllers\Fronted\Customer\CustomerAuthController;
 use App\Http\Controllers\Fronted\Customer\HomeController;
 use App\Http\Controllers\Fronted\Customer\CategoryController as CustomerCategoryController;
+use App\Http\Controllers\Fronted\Customer\ProductController as CustomerProductController;
 
 
 /*
@@ -56,17 +57,17 @@ route::prefix('admin')->group(function () {
     // CRUD Products
     Route::middleware('require.admin.login')->group(function () {
         // index
-        Route::get('products', [ProductController::class, 'index'])->name('product.index');
+        Route::get('products', [AdminProductController::class, 'index'])->name('product.index');
         // create
-        Route::get('products/create', [ProductController::class, 'create'])->name('product.create');
-        Route::post('products', [ProductController::class, 'store'])->name('product.store');
+        Route::get('products/create', [AdminProductController::class, 'create'])->name('product.create');
+        Route::post('products', [AdminProductController::class, 'store'])->name('product.store');
         // show
-        Route::get('products/{product_id}', [ProductController::class, 'show'])->name('product.show');
+        Route::get('products/{product_id}', [AdminProductController::class, 'show'])->name('product.show');
         // edit
-        Route::get('products/{product_id}/edit', [ProductController::class, 'edit'])->name('product.edit');
-        Route::put('products/{product_id}', [ProductController::class, 'update'])->name('product.update');
+        Route::get('products/{product_id}/edit', [AdminProductController::class, 'edit'])->name('product.edit');
+        Route::put('products/{product_id}', [AdminProductController::class, 'update'])->name('product.update');
         // delete
-        Route::delete('products/{product_id}', [ProductController::class, 'destroy'])->name('product.destroy');
+        Route::delete('products/{product_id}', [AdminProductController::class, 'destroy'])->name('product.destroy');
     });
 
     // CRUD Slide
@@ -107,7 +108,13 @@ route::prefix('admin')->group(function () {
 // home
 Route::get('/', [HomeController::class, 'index'])->name('customer.index');
 
-Route::get('category/{slug}', [CustomerCategoryController::class, 'showProductsByCategory'])->name('customer.category.products');
+// product
+Route::get('/san-pham', [CustomerProductController::class, 'index'])->name('customer.product');
+Route::get('/san-pham/{slug}', [CustomerProductController::class, 'show'])->name('customer.product.show');
+
+Route::get('/danh-muc/{slug}', [CustomerCategoryController::class, 'showProductsByCategory'])->name('customer.category.products');
+
+
 
 // login
 Route::get('login', [CustomerAuthController::class, 'login'])->name('customer.login')->middleware('redirectIf.customer.auth');

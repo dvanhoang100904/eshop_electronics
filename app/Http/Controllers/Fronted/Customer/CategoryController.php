@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function showProductsByCategory($slug)
     {
         $category = Category::where('slug', $slug)->firstOrFail();
-        $products = $category->products()->paginate(5);
+        $products = $category->products()->paginate(8);
 
         return view('frontend.pages.category-products', compact('category', 'products'));
     }

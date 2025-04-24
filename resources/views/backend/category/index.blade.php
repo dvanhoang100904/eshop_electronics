@@ -56,8 +56,7 @@
                             <th width="80" class="text-center">Mã</th>
                             <th>Tên</th>
                             <th>Mô tả</th>
-                            <th>Slug</th>
-                            <th width="120">Hình ảnh</th>
+                            <th width="160">Hình ảnh</th>
                             <th width="180" class="text-center">Thao Tác</th>
                         </tr>
                     </thead>
@@ -73,7 +72,6 @@
                                             class="text-decoration-none">…</a>
                                     @endif
                                 </td>
-                                <td>{{ $category->slug }}</td>
                                 <td class="text-center">
                                     <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"
                                         class="img-thumbnail" width="80" height="80" style="object-fit: cover;">

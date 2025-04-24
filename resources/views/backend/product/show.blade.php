@@ -42,6 +42,12 @@
                                     <td class="fw-bold text-muted">Tên sản phẩm:</td>
                                     <td class="fw-semibold">{{ $product->name }}</td>
                                 </tr>
+
+                                <tr>
+                                    <td class="fw-bold text-muted">Slug:</td>
+                                    <td>{{ $product->slug }}</td>
+                                </tr>
+
                                 <!-- Danh mục -->
                                 <tr>
                                     <td class="fw-bold text-muted">Danh mục:</td>

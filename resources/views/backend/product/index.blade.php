@@ -72,7 +72,7 @@
                             <th>Tên</th>
                             <th>Mô tả</th>
                             <th width="120" class="text-end">Giá</th>
-                            <th width="120">Hình ảnh</th>
+                            <th width="160">Hình ảnh</th>
                             <th width="180" class="text-center">Thao Tác</th>
                         </tr>
                     </thead>

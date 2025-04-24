@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\Category;
 use Faker\Factory as Faker;
+use Illuminate\Support\Str;
 
 class ProductSeeder extends Seeder
 {
@@ -20,12 +21,14 @@ class ProductSeeder extends Seeder
 
         for ($i = 1; $i <= 50; $i++) {
             Product::create([
-                'name' => $faker->sentence(3),
+                'name' => $name = $faker->sentence(3),
                 'description' => $faker->paragraph(),
                 'price' => $faker->randomFloat(2, 100, 5000),
                 'image' => 'products/' . $faker->image(storage_path('app/public/products'), 400, 300, null, false),
                 'category_id' => $faker->randomElement($categoryIds),
                 'is_featured' => $faker->boolean(30),
+                'slug' => Str::slug($name) . '-' . uniqid(),
+
             ]);
         }
     }

@@ -98,6 +98,19 @@
                             </div>
                         </div>
 
+                        <!-- slug -->
+                        <div class="mb-4">
+                            <label for="slug" class="form-label fw-bold">Slug</label>
+                            <input type="text" name="slug" id="slug" class="form-control form-control-lg"
+                                value="{{ old('slug') }}" />
+                            @if ($errors->has('slug'))
+                                <div class="invalid-feedback d-block">
+                                    {{ $errors->first('slug') }}
+                                </div>
+                            @endif
+                        </div>
+
+
                         <!-- image -->
                         <div class="mb-4">
                             <label for="image" class="form-label fw-bold">Hình Ảnh</label>

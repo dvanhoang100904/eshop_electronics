@@ -12,14 +12,15 @@
                     <div class="card h-100 product-card">
                         <div class="position-relative">
                             <!-- image -->
-                            <a href="#!">
+                            <a href="{{ route('customer.product.show', $featuredProduct->slug) }}">
                                 <img src="{{ asset('storage/' . $featuredProduct->image) }}"
-                                    class="card-img-top product-img" alt="Laptop Acer" />
+                                    class="card-img-top product-img" alt="{{ $featuredProduct->name }}" />
                             </a>
                         </div>
                         <div class="card-body">
                             <!-- name -->
-                            <a class="text-dark text-decoration-none" href="#!">
+                            <a class="text-dark text-decoration-none"
+                                href="{{ route('customer.product.show', $featuredProduct->slug) }}">
                                 <h5 class="card-title product-title">
                                     {{ $featuredProduct->name }}
                                 </h5>
@@ -36,11 +37,10 @@
                     </div>
                 </div>
             @endforeach
-
         </div>
 
         <div class="text-center mt-3">
-            <a href="./product.html" class="btn btn-outline-danger px-4">
+            <a href="{{ route('customer.product') }}" class="btn btn-outline-danger px-4">
                 <i class="fas fa-arrow-right me-2"></i>Xem tất cả
             </a>
         </div>
