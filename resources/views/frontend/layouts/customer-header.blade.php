@@ -6,20 +6,20 @@
              <div class="row gy-3 align-items-center">
                  <!-- Logo -->
                  <div class="col-lg-2 col-sm-4 col-4">
-                     <a href="./index.html" class="float-start">
+                     <a href="{{ route('customer.index') }}" class="float-start">
                          <img src="{{ asset('logo/logo.png') }}" height="40" alt="Logo" />
                      </a>
                  </div>
 
                  <!-- Search Bar -->
                  <div class="col-lg-7 col-md-8 col-12">
-                     <div class="input-group">
-                         <input type="search" class="form-control rounded-start" placeholder="Tìm kiếm sản phẩm..."
-                             aria-label="Search" />
+                     <form action="{{ route('customer.product.search') }}" method="GET" class="input-group">
+                         <input type="search" name="keyword" class="form-control rounded-start"
+                             placeholder="Tìm kiếm sản phẩm..." value="{{ request('keyword') }}" aria-label="Search" />
                          <button type="button" class="btn search-btn text-white rounded-end">
                              <i class="fas fa-search"></i>
                          </button>
-                     </div>
+                     </form>
                  </div>
 
                  <!-- Account and Cart -->

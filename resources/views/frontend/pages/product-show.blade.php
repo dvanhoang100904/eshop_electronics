@@ -1,17 +1,18 @@
 @extends('frontend.layouts.customer-layout')
 
+@section('title', $product->name)
+
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <!-- Link tới trang sản phẩm -->
-                        <li class="breadcrumb-item">
-                            <a class="text-decoration-none text-dark" href="{{ route('customer.product') }}">Sản phẩm</a>
+
+                        <li class="breadcrumb-item"><a class="text-dark text-decoration-none"
+                                href="{{ route('customer.product') }}"> Sản phẩm</a>
                         </li>
 
-                        <!-- Link tới danh mục sản phẩm -->
                         <li class="breadcrumb-item">
                             <a class="text-decoration-none text-dark"
                                 href="{{ route('customer.category.products', $product->category->slug) }}">
@@ -19,7 +20,6 @@
                             </a>
                         </li>
 
-                        <!-- Tên sản phẩm hiện tại -->
                         <li class="breadcrumb-item active" aria-current="page">{{ $product->name }}</li>
                     </ol>
                 </nav>

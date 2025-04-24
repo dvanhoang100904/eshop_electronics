@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Category;
 use Illuminate\Support\Str;
+use Faker\Factory as Faker;
 
 class CategorySeeder extends Seeder
 {
@@ -14,17 +15,59 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        $faker = Faker::create();
+
         $categories = [
-            ['name' => 'Điện thoại, Tablet', 'description' => 'Các mẫu điện thoại thông minh', 'image' => 'phones.jpg', 'is_featured' => true],
-            ['name' => 'Laptop', 'description' => 'Máy tính xách tay', 'image' => 'laptops.jpg', 'is_featured' => true],
-            ['name' => 'Phụ kiện', 'description' => 'Phụ kiện công nghệ', 'image' => 'accessories.jpg', 'is_featured' => true],
-            ['name' => 'Âm thanh', 'description' => 'Loa, tai nghe', 'image' => 'audio.jpg', 'is_featured' => true],
-            ['name' => 'Màn hình', 'description' => 'Màn hình máy tính', 'image' => 'monitors.jpg', 'is_featured' => false],
+            [
+                'name' => 'Điện thoại',
+                'image' => 'categories/phone.jpg'
+            ],
+            [
+                'name' => 'Laptop',
+                'image' => 'categories/laptop.jpg'
+            ],
+            [
+                'name' => 'Máy tính bảng',
+                'image'     => 'categories/tablet.jpg'
+            ],
+            [
+                'name' => 'Phụ kiện',
+                'image' => 'categories/accessories.jpg'
+            ],
+            [
+                'name' => 'Tai nghe',
+                'image' => 'categories/headphones.jpg'
+            ],
+            [
+                'name' => 'Camera',
+                'image' => 'categories/camera.jpg'
+            ],
+            [
+                'name' => 'Tivi',
+                'image' => 'categories/tv.jpg'
+            ],
+            [
+                'name' => 'Đồng hồ thông minh',
+                'image' => 'categories/smartwatch.jpg'
+            ],
+            [
+                'name' => 'Máy chơi game',
+                'image' => 'categories/game-console.jpg'
+            ],
+            [
+                'name' => 'Loa Bluetooth',
+                'image' => 'categories/speaker.jpg'
+            ],
         ];
 
-        foreach ($categories as $data) {
-            $data['slug'] = Str::slug($data['name']);
-            Category::create($data);
+        foreach ($categories as $item) {
+            Category::create([
+                'name' => $item['name'],
+                'slug' => Str::slug($item['name']),
+                'description' => $faker->sentence(15),
+                'is_featured' => $faker->boolean(30),
+                'image' => $item['image'],
+            ]);
         }
     }
 }

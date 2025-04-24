@@ -12,7 +12,8 @@
                     <div class="card h-100 product-card">
                         <div class="position-relative">
                             <!-- image -->
-                            <a href="{{ route('customer.product.show', $featuredProduct->slug) }}">
+                            <a class="text-dark text-decoration-none"
+                                href="{{ route('customer.product.show', $featuredProduct->slug) }}">
                                 <img src="{{ asset('storage/' . $featuredProduct->image) }}"
                                     class="card-img-top product-img" alt="{{ $featuredProduct->name }}" />
                             </a>
@@ -27,7 +28,7 @@
                             </a>
                             <!-- desc -->
                             <p class="card-text text-muted small">
-                                {{ Str::limit($featuredProduct->description, 80) }}
+                                {{ Str::limit($featuredProduct->description, 50) }}
                             </p>
                             <!-- price -->
                             <p class="card-text product-price mb-0">
