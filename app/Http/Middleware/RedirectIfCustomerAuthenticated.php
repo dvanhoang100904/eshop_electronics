@@ -16,8 +16,12 @@ class RedirectIfCustomerAuthenticated
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
+        if (Auth::check() && Auth::user()->role_id === 2) {
             return redirect()->route('customer.index');
+        }
+
+        if (Auth::check() && Auth::user()->role_id === 1) {
+            return redirect()->route('admin.dashboard');
         }
         return $next($request);
     }

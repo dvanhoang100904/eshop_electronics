@@ -19,6 +19,12 @@ class RequireCustomerLogin
         if (!Auth::check()) {
             return redirect()->route('customer.login')->withErrors('Vui lòng đăng nhập');
         }
+
+        if (Auth::user()->role_id !== 2) {
+            return redirect()->route('home')->withErrors('Bạn không phải là khách hàng để truy cập trang này!');
+        }
+
+
         return $next($request);
     }
 }

@@ -19,6 +19,10 @@ class RequireAdminLogin
         if (!Auth::check()) {
             return redirect()->route('admin.login')->withErrors('Vui lòng đăng nhập để truy cập trang quản trị!');
         }
+
+        if (Auth::user()->role_id !== 1) {
+            return redirect()->route('home')->withErrors('Bạn không có quyền truy cập vào trang quản trị!');
+        }
         return $next($request);
     }
 }

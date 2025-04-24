@@ -36,25 +36,37 @@
                              </a>
                              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
                                  @auth
-                                     <li>
-                                         <a class="dropdown-item" href="#">
-                                             <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->name }}
-                                         </a>
-                                     </li>
-                                     <li>
-                                         <hr class="dropdown-divider" />
-                                     </li>
-                                     <li>
-                                         <form action="{{ route('customer.logout') }}" method="POST"
-                                             onsubmit="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
-                                             @csrf
-                                             <button type="submit" class="dropdown-item">
-                                                 <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
-                                             </button>
-                                         </form>
-                                     </li>
+                                     @if (Auth::user()->role_id === 2)
+                                         <li>
+                                             <a class="dropdown-item" href="#">
+                                                 <i class="fas fa-user-circle me-2"></i>{{ Auth::user()->name }}
+                                             </a>
+                                         </li>
+                                         <li>
+                                             <hr class="dropdown-divider" />
+                                         </li>
+                                         <li>
+                                             <form action="{{ route('customer.logout') }}" method="POST"
+                                                 onsubmit="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
+                                                 @csrf
+                                                 <button type="submit" class="dropdown-item">
+                                                     <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
+                                                 </button>
+                                             </form>
+                                         </li>
+                                     @else
+                                         <li>
+                                             <a class="dropdown-item" href="{{ route('customer.login') }}">
+                                                 <i class="fas fa-sign-in-alt me-2"></i>Đăng Nhập
+                                             </a>
+                                         </li>
+                                         <li>
+                                             <a class="dropdown-item" href="./register.html">
+                                                 <i class="fas fa-user-plus me-2"></i>Đăng Ký
+                                             </a>
+                                         </li>
+                                     @endif
                                  @else
-                                     {{-- Nếu chưa đăng nhập --}}
                                      <li>
                                          <a class="dropdown-item" href="{{ route('customer.login') }}">
                                              <i class="fas fa-sign-in-alt me-2"></i>Đăng Nhập
