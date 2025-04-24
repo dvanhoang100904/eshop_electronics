@@ -20,17 +20,23 @@ class OrderDetailSeeder extends Seeder
 
         foreach ($orders as $order) {
             $selectedProducts = $products->random(rand(1, 3));
+            $total = 0;
 
             foreach ($selectedProducts as $product) {
                 $quantity = rand(1, 5);
+                $price = $product->price;
+                $totalPrice = $price * $quantity;
+
                 OrderDetail::create([
                     'order_id' => $order->order_id,
                     'product_id' => $product->product_id,
                     'quantity' => $quantity,
                     'price' => $product->price,
-                    'total_price' => $product->price * $quantity,
+                    'total_price' => $totalPrice,
                 ]);
+                $total += $totalPrice;
             }
+            $order->update(['total_price' => $total]);
         }
     }
 }

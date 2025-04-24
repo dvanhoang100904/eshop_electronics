@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
     use HasFactory;
 
+    // Định nghĩa khóa chính product_id của bảng products
     protected $primaryKey = 'product_id';
 
     protected $fillable = [
@@ -23,13 +25,17 @@ class Product extends Model
 
     ];
 
-
+    /**
+     * Ép kiểu dữ liệu cho các trường.
+     */
     protected $casts = [
         'is_featured' => 'boolean',
     ];
 
-
-    // Tạo slug tự động nếu không có
+    /**
+     * Tự động tạo slug khi chưa có.
+     * Sử dụng tên sản phẩm và tạo một slug duy nhất cho mỗi sản phẩm.
+     */
     protected static function booted()
     {
         static::creating(function ($product) {
@@ -39,8 +45,11 @@ class Product extends Model
         });
     }
 
-
-    public function category()
+    /**
+     * Quan hệ với bảng Category.
+     * Một sản phẩm thuộc về một danh mục.
+     */
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }

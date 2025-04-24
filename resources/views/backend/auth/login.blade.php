@@ -41,6 +41,7 @@
                             <h3>Đăng Nhập</h3>
                         </div>
                         <div class="card-body p-4">
+                            {{-- Hiển thị thông báo thành công (nếu có) --}}
                             @if (session('success'))
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                                     {{ session('success') }}
@@ -49,8 +50,11 @@
                                 </div>
                             @endif
 
+                            <!-- Form đăng nhập -->
                             <form method="POST" role="form" action="{{ route('admin.authLogin') }}">
                                 @csrf
+
+                                {{-- Email --}}
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
                                     <div class="input-group">
@@ -63,6 +67,7 @@
                                     @endif
                                 </div>
 
+                                {{-- Password --}}
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Mật khẩu</label>
                                     <div class="input-group">
@@ -86,6 +91,7 @@
                                     <a href="#!" class="text-dark text-decoration-none">Quên mật khẩu?</a>
                                 </div>
 
+                                {{-- Action --}}
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-danger btn-lg"
                                         style="background: linear-gradient(135deg, #2a5298, #1e3c72);border: 2px solid #1e3c72;  ">
@@ -96,6 +102,7 @@
                                 </div>
                             </form>
                         </div>
+
                         <div class="card-footer text-center py-3">
                             <small class="text-muted">© 2025 Login Admin.</small>
                         </div>
@@ -106,7 +113,7 @@
     </main>
 
     <script>
-        // Toggle password visibility
+        // Ẩn/hiện mật khẩu
         document.querySelectorAll(".toggle-password").forEach((button) => {
             button.addEventListener("click", function() {
                 const passwordInput = this.parentElement.querySelector("input");

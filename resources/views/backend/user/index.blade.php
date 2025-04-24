@@ -5,7 +5,7 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="h5 mb-0 fw-bold">
-                    <i class="fas fa-users me-2"></i>Danh Sách Người Dùng
+                    <i class="fas fa-users me-2"></i>Danh Sách Đơn Hàng
                 </h2>
                 <a href="{{ route('user.create') }}?page={{ request()->get('page') }}" class="btn btn-success btn-sm">
                     <i class="fas fa-plus-circle me-1"></i> Thêm
@@ -42,7 +42,7 @@
                     <tbody>
                         @foreach ($users as $user)
                             <tr>
-                                <td class="text-center fw-bold">{{ $user->user_id }}</td>
+                                <td class="text-center fw-bold">#{{ $user->user_id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->phone }}</td>
                                 <td>{{ $user->email }}</td>

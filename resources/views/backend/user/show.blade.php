@@ -93,13 +93,13 @@
                         <i class="fas fa-image me-2"></i> Ảnh đại diện
                     </h5>
                 </div>
-                <div class="card-body text-center">
+                {{-- <div class="card-body text-center">
                     <div class="user-image-container mb-3">
                         <img src="{{ $user ? asset('storage/' . $user->avatar) : asset('images/default-avatar.png') }}"
                             class="img-fluid rounded-circle border" alt="{{ $user->name }}"
                             style="max-height: 200px; object-fit: cover;">
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

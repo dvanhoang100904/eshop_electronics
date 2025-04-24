@@ -10,21 +10,24 @@ use App\Models\Cart;
 class CartController extends Controller
 {
     /**
-     * Display a the cart page.
+     * Hiển thị trang giỏ hàng.
      */
     public function index()
     {
+        // Lấy user_id người dùng đã đăng nhập (nếu có), nếu không thì lấy session_id
         $user_id = auth()->check() ? auth()->id() : null;
         $session_id = session()->getId();
 
-        // Tìm giỏ hàng của người dùng
-        $cart = Cart::with('cartItems.product')->where(function ($q) use ($user_id, $session_id) {
-            if ($user_id) {
-                $q->where('user_id', $user_id);
-            } else {
-                $q->where('session_id', $session_id);
-            }
-        })->first();
+        // Tìm giỏ hàng của người dùng hoặc của guest theo session
+        $cart = Cart::with('cartItems.product')
+            ->where(function ($q) use ($user_id, $session_id) {
+                if ($user_id) {
+                    $q->where('user_id', $user_id);
+                } else {
+                    // Nếu không có người dùng, tìm giỏ hàng của khách theo session
+                    $q->where('session_id', $session_id);
+                }
+            })->first();
 
         // Nếu không có giỏ hàng, tạo mới
         if (!$cart) {
@@ -40,29 +43,34 @@ class CartController extends Controller
             return $item->product->price * $item->quantity;
         });
 
+        // Trả về trang giỏ hàng với các sản phẩm và tổng giá
         return view('frontend.pages.carts', compact('cartItems', 'totalPrice'));
     }
 
     /**
-     * Add a product to the cart.
+     * Thêm sản phẩm vào giỏ hàng.
      */
     public function addToCart(Request $request)
     {
-
+        // Lấy thông tin sản phẩm và số lượng từ request
         $product_id = $request->input('product_id');
+
+        // Mặc định số lượng là 1
         $quantity = $request->input('quantity', 1);
 
         // Kiểm tra xem người dùng đã đăng nhập chưa
         $user_id = auth()->check() ? auth()->id() : null;
         $session_id = session()->getId();
 
-        // Tìm giỏ hàng của người dùng hoặc guest theo session
+        // Tìm giỏ hàng của người dùng hoặc của guest theo session
         $cart = Cart::firstOrCreate(
             ['user_id' => $user_id, 'session_id' => $session_id]
         );
 
         // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-        $cartItem = $cart->cartItems()->where('product_id', $product_id)->first();
+        $cartItem = $cart->cartItems()
+            ->where('product_id', $product_id)
+            ->first();
 
         if ($cartItem) {
             // Nếu có, tăng số lượng lên
@@ -75,17 +83,20 @@ class CartController extends Controller
             ]);
         }
 
+        // Redirect lại trang giỏ hàng
         return redirect()->route('customer.cart');
     }
 
     /**
-     * Update the product quantity in the cart.
+     * Cập nhật số lượng sản phẩm trong giỏ hàng.
      */
     public function updateCart(Request $request)
     {
+        // Lấy thông tin sản phẩm và số lượng mới từ request
         $product_id = $request->input('product_id');
         $quantity = $request->input('quantity');
 
+        // Kiểm tra số lượng phải lớn hơn 0
         if ($quantity < 1) {
             return back()->withErrors('Số lượng phải lớn hơn 0!');
         }
@@ -104,16 +115,21 @@ class CartController extends Controller
         })->first();
 
         if ($cart) {
-            $cartItem = $cart->cartItems()->where('product_id', $product_id)->first();
+            // Tìm item trong giỏ hàng và cập nhật số lượng
+            $cartItem = $cart->cartItems()
+                ->where('product_id', $product_id)
+                ->first();
 
             if ($cartItem) {
                 $cartItem->update(['quantity' => $quantity]);
 
-                // Tính lại tổng tiền
-                $totalPrice = $cart->cartItems->sum(function ($item) {
-                    return $item->product->price * $item->quantity;
-                });
+                // Tính lại tổng tiền của giỏ hàng
+                $totalPrice = $cart->cartItems
+                    ->sum(function ($item) {
+                        return $item->product->price * $item->quantity;
+                    });
 
+                // Redirect lại trang giỏ hàng và truyền tổng giá mới
                 return redirect()->route('customer.cart')->with('totalPrice', $totalPrice);
             }
         }
@@ -122,17 +138,18 @@ class CartController extends Controller
     }
 
     /**
-     * Delete the product in the cart.
+     * Xóa sản phẩm khỏi giỏ hàng.
      */
     public function removeFromCart(Request $request)
     {
+        // Lấy product_id sản phẩm cần xóa
         $product_id = $request->input('product_id');
 
         // Kiểm tra xem người dùng đã đăng nhập chưa
         $user_id = auth()->check() ? auth()->id() : null;
         $session_id = session()->getId();
 
-        // Tìm giỏ hàng của người dùng hoặc guest theo session
+        // Tìm giỏ hàng của người dùng hoặc của guest theo session
         $cart = Cart::where(function ($q) use ($user_id, $session_id) {
             if ($user_id) {
                 $q->where('user_id', $user_id);
@@ -142,17 +159,21 @@ class CartController extends Controller
         })->first();
 
         if ($cart) {
-            $cartItem = $cart->cartItems()->where('product_id', $product_id)->first();
+            // Tìm item trong giỏ hàng và xóa
+            $cartItem = $cart->cartItems()
+                ->where('product_id', $product_id)
+                ->first();
 
             if ($cartItem) {
-                // Xóa sản phẩm khỏi giỏ
+                // Xóa sản phẩm khỏi giỏ hàng
                 $cartItem->delete();
 
-                // Tính lại tổng tiền
+                // Tính lại tổng tiền của giỏ hàng
                 $totalPrice = $cart->cartItems->sum(function ($item) {
                     return $item->product->price * $item->quantity;
                 });
 
+                // Redirect lại trang giỏ hàng và truyền tổng giá mới
                 return redirect()->route('customer.cart')->with('totalPrice', $totalPrice);
             }
         }

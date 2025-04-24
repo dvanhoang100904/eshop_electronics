@@ -65,7 +65,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="stat-title">ĐƠN HÀNG</h6>
-                            <h3 class="stat-value">12</h3>
+                            <h3 class="stat-value">{{ $totalOrders }}</h3>
                         </div>
                         <div class="stat-icon">
                             <i class="fas fa-shopping-cart"></i>
