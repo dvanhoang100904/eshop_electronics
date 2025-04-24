@@ -25,6 +25,7 @@ class ProductSeeder extends Seeder
                 'price' => $faker->randomFloat(2, 100, 5000),
                 'image' => 'products/' . $faker->image(storage_path('app/public/products'), 400, 300, null, false),
                 'category_id' => $faker->randomElement($categoryIds),
+                'is_featured' => $faker->boolean(30),
             ]);
         }
     }

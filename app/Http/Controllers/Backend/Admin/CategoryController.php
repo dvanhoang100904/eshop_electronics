@@ -7,6 +7,7 @@ use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -20,8 +21,14 @@ class CategoryController extends Controller
         if ($request->has('search') && $request->search != '') {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
+
+        // Lọc theo danh mục nổi bật
+        if ($request->has('is_featured')) {
+            $query->where('is_featured', (int) $request->is_featured);
+        }
+
         $perPage = 5;
-        $categories  = $query->paginate($perPage)->appends($request->only('search'));
+        $categories  = $query->paginate($perPage)->appends($request->only('search', 'is_featured'));
         return view('backend.category.index', compact('categories'));
     }
 
@@ -43,10 +50,16 @@ class CategoryController extends Controller
             $imageName = $request->file('image')->store('categories', 'public');
         }
 
+        $slug = $request->slug ?: Str::slug($request->name, '-');
+
+        // $isFeatured = $request->input('is_featured', 0);
+
         Category::create([
             'name' => $request->name,
             'description' => $request->description,
-            'image' =>   $imageName,
+            'slug' => $slug,
+            'image' => $imageName,
+            'is_featured' => $request->is_featured
         ]);
 
         $page = $request->get('page');
@@ -78,10 +91,14 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $category_id)
     {
         $category = Category::findOrFail($category_id);
+        $slug = $request->slug ?: Str::slug($request->name, '-');
 
         $data = [
             'name' => $request->name,
             'description' => $request->description,
+            'slug' => $slug,
+            'is_featured' =>  $request->is_featured
+
         ];
 
         if ($request->hasFile('image')) {

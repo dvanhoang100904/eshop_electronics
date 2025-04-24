@@ -16,19 +16,52 @@
                 </a>
             </div>
 
-            <!-- Search Form -->
-            <div class="mb-4">
-                <form action="{{ route('product.index') }}?page={{ request()->get('page') }}" method="GET" class="w-100">
+            <!-- Bộ lọc -->
+            <form action="{{ route('product.index') }}" method="GET" class="row g-3 mb-4">
+                {{-- Ô tìm kiếm --}}
+                <div class="col-md-4">
+                    <label class="form-label">Từ khóa</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white border-end-0">
                             <i class="fas fa-search text-muted"></i>
                         </span>
                         <input type="text" class="form-control border-start-0" name="search"
                             placeholder="Tìm kiếm sản phẩm..." value="{{ request()->search }}">
-                        <button class="btn btn-primary" type="submit">Tìm</button>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                {{-- Danh mục --}}
+                <div class="col-md-3">
+                    <label class="form-label">Danh mục</label>
+                    <select name="category_id" class="form-select">
+                        <option value="">Tất cả</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->category_id }}"
+                                {{ request('category_id') == $category->category_id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Trạng thái nổi bật --}}
+                <div class="col-md-2">
+                    <label class="form-label">Nổi bật</label>
+                    <select name="is_featured" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="1" {{ request('is_featured') === '1' ? 'selected' : '' }}>Có</option>
+                        <option value="0" {{ request('is_featured') === '0' ? 'selected' : '' }}>Không</option>
+                    </select>
+                </div>
+
+                {{-- Nút lọc --}}
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" type="submit">
+                        <i class="fas fa-filter me-1"></i> Lọc
+                    </button>
+                </div>
+            </form>
+
 
             {{-- Products Table --}}
             <div class="table-responsive">
@@ -55,11 +88,12 @@
                                             class="text-decoration-none">…</a>
                                     @endif
                                 </td>
-                                <td class="text-end">{{ number_format($product->price) }} VND</td>
+                                <td class="text-end">{{ number_format($product->price, 0, ',', '.') }} VND</td>
                                 <td class="text-center">
                                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
                                         class="img-thumbnail" width="80" height="80" style="object-fit: cover;">
                                 </td>
+
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('product.show', $product->product_id) }}?page={{ request()->get('page') }}"

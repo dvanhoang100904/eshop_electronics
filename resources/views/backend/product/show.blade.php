@@ -65,6 +65,16 @@
                                     </td>
                                 </tr>
 
+                                {{-- featured --}}
+                                <tr>
+                                    <td class="fw-bold text-muted">Sản Phẩm nổi bật:</td>
+                                    <td>
+                                        <span class="fw-bold text-danger fs-5">
+                                            {{ $product->is_featured ? 'Nổi bật' : 'Không nổi bật' }}
+                                        </span>
+                                    </td>
+                                </tr>
+
                                 <!-- Ngày tạo -->
                                 <tr>
                                     <td class="fw-bold text-muted">Ngày tạo:</td>

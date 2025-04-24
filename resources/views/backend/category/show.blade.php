@@ -42,6 +42,23 @@
                                     <td class="fw-semibold">{{ $category->name }}</td>
                                 </tr>
 
+                                {{-- slug --}}
+                                <tr>
+                                    <td class="fw-bold text-muted">Slug:</td>
+                                    <td>{{ $category->slug }}</td>
+                                </tr>
+
+
+                                {{-- featured --}}
+                                <tr>
+                                    <td class="fw-bold text-muted">Danh mục nổi bật:</td>
+                                    <td>
+                                        <span class="fw-bold text-danger fs-5">
+                                            {{ $category->is_featured ? 'Nổi bật' : 'Không nổi bật' }}
+                                        </span>
+                                    </td>
+                                </tr>
+
                                 <!-- Ngày tạo -->
                                 <tr>
                                     <td class="fw-bold text-muted">Ngày tạo:</td>

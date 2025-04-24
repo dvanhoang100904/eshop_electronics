@@ -27,6 +27,7 @@ class ProductRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'category_id' => 'required|integer',
+            'is_featured' => 'nullable|boolean',
         ];
     }
 
@@ -39,6 +40,7 @@ class ProductRequest extends FormRequest
             'category_id.required' => 'Vui lòng chọn danh mục',
             'image.image' => 'File upload phải là hình ảnh',
             'image.max' => 'Dung lượng ảnh tối đa 2MB',
+            'is_featured.boolean' => 'Trường "Nổi bật" phải là giá trị boolean (true hoặc false).',
         ];
     }
 }

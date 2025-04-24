@@ -79,6 +79,23 @@
                                     @endforeach
                                 </select>
                             </div>
+
+                            <!-- featured -->
+                            <div class="mb-4">
+                                <label for="featured" class="form-label fw-bold">Nổi bật</label>
+                                <!-- Checkbox -->
+                                <div class="form-check">
+                                    <input type="hidden" name="is_featured" value="0" />
+                                    <input type="checkbox" name="is_featured" id="featured" class="form-check-input"
+                                        value="1" {{ old('is_featured', 0) ? 'checked' : '' }} />
+                                    <label for="featured" class="form-check-label">Nổi bật</label>
+                                </div>
+                                @if ($errors->has('is_featured'))
+                                    <div class="invalid-feedback d-block">
+                                        {{ $errors->first('is_featured') }}
+                                    </div>
+                                @endif
+                            </div>
                         </div>
 
                         <!-- image -->
