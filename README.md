@@ -53,22 +53,6 @@
     php artisan storage:link
     ```
 
-2. Tạo các thư mục chứa hình ảnh nếu chưa có:
-
-    Products
-    ```bash
-    mkdir -p public/storage/products
-    ```
-    Categories
-    ```bash
-    mkdir -p public/storage/categories
-    ```
-    Slides
-    ```bash
-    mkdir -p public/storage/slides
-    ```
-    
-
 ### 4. Các câu lệnh để tạo bảng và xóa bảng và tạo dữ liệu mẫu
 
 1. Chạy lệnh migrate để tạo bảng và seed dữ liệu mẫu:
