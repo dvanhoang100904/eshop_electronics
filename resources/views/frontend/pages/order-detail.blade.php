@@ -98,7 +98,7 @@
                             @foreach ($order->orderDetails as $orderDetail)
                                 <tr>
                                     <td>
-                                        <img src="{{ $orderDetail->product->image }}"
+                                        <img src="{{ asset('storage/' . $orderDetail->product->image) }}"
                                             alt="{{ $orderDetail->product->name }}" class="img-fluid"
                                             style="max-width: 80px;">
                                     </td>
