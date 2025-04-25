@@ -16,3 +16,11 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Bỏ qua tất cả các tệp trong thư mục storage
+/storage/*
+
+# Cho phép theo dõi thư mục public trong storage
+!storage/app/
+!storage/app/public/
+!storage/app/public/products/

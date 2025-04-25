@@ -66,7 +66,7 @@ class CategorySeeder extends Seeder
                 'slug' => Str::slug($item['name']),
                 'description' => $faker->sentence(15),
                 'is_featured' => $faker->boolean(30),
-                'image' => 'storage/categories' . $item['image'],
+                'image' => $item['image'],
             ]);
         }
     }
