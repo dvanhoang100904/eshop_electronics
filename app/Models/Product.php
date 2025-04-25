@@ -40,7 +40,15 @@ class Product extends Model
     {
         static::creating(function ($product) {
             if (empty($product->slug)) {
-                $product->slug = Str::slug($product->name) . '-' . uniqid();
+                // Tạo slug ban đầu từ tên sản phẩm
+                $slug = Str::slug($product->name);
+
+                // Kiểm tra slug đã tồn tại chưa, nếu có thì thêm mã số ngẫu nhiên
+                while (Product::where('slug', $slug)->exists()) {
+                    $slug = Str::slug($product->name) . '-' . uniqid();
+                }
+
+                $product->slug = $slug;
             }
         });
     }

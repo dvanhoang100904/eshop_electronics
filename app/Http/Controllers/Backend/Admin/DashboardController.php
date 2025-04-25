@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Slide;
 
 class DashboardController extends Controller
 {
@@ -20,6 +21,7 @@ class DashboardController extends Controller
         $totalProducts = Product::Count();
         $totalCategories = Category::Count();
         $totalOrders = Order::count();
-        return view('backend.dashboard.dashboard', compact('totalUsers', 'totalProducts', 'totalCategories', 'totalOrders'));
+        $totalSlides = Slide::count();
+        return view('backend.dashboard.dashboard', compact('totalUsers', 'totalProducts', 'totalCategories', 'totalOrders', 'totalSlides'));
     }
 }

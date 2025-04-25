@@ -77,36 +77,7 @@
             </div>
 
             {{-- Pagination --}}
-            @if ($users->hasPages())
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <div class="text-muted">
-                        Hiển thị từ <strong>{{ $users->firstItem() }}</strong> đến
-                        <strong>{{ $users->lastItem() }}</strong>
-                        trong tổng số <strong>{{ $users->total() }}</strong> người dùng
-                    </div>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item {{ $users->onFirstPage() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $users->previousPageUrl() }}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-
-                            @foreach ($users->getUrlRange(1, $users->lastPage()) as $page => $url)
-                                <li class="page-item {{ $page == $users->currentPage() ? 'active' : '' }}">
-                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                </li>
-                            @endforeach
-
-                            <li class="page-item {{ $users->hasMorePages() ? '' : 'disabled' }}">
-                                <a class="page-link" href="{{ $users->nextPageUrl() }}" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            @endif
+            @include('backend.layouts.paginate', ['pagination' => $users])
         </div>
     </div>
 @endsection

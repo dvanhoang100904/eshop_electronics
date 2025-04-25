@@ -6,5 +6,5 @@
      <a href="{{ route('category.index') }}"><i class="fas fa-list"></i> Danh Mục</a>
      <a href="{{ route('user.index') }}"><i class="fas fa-users"></i> Người Dùng</a>
      <a href="{{ route('order.index') }}"><i class="fas fa-shopping-cart"></i> Đơn Hàng</a>
-     <a href="{{ route('slide.index') }}"><i class="fas fa-images"></i> Slides</a>
+     <a href="{{ route('slide.index') }}"><i class="fas fa-images"></i> Slide</a>
  </aside>
