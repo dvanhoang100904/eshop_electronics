@@ -22,7 +22,7 @@ class Product extends Model
         'category_id',
         'slug',
         'is_featured',
-
+        'sold',
     ];
 
     /**

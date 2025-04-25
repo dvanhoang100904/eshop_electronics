@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->boolean('is_featured')->default(false);
             $table->string('slug')->unique();
+            $table->unsignedBigInteger('sold')->default(0);
             $table->timestamps();
         });
     }

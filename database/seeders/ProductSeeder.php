@@ -57,6 +57,7 @@ class ProductSeeder extends Seeder
                     'category_id' => $category->category_id,
                     'is_featured' => $faker->boolean(30),
                     'slug' => Str::slug($name) . '-' . uniqid(),
+                    'sold' => $faker->numberBetween(0, 1000),
                 ]);
             }
         }

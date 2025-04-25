@@ -15,16 +15,38 @@ class ProductController extends Controller
     /**
      * Hiển thị danh sách sản phẩm với phân trang.
      */
-    public function index()
+    public function index(Request $request)
     {
         // Lấy tất cả các danh mục để hiển thị
         $categories = Category::all();
 
-        // Lấy danh sách sản phẩm mới nhất và phân trang theo hằng số PER_PAGES
-        $products = Product::latest()->paginate(self::PER_PAGES);
+        // Lấy giá trị 'sort' từ request, nếu không có thì mặc định là 'latest' (Mới nhất)
+        $sort = $request->input('sort', 'latest');
+
+        // Kiểm tra giá trị 'sort' để xác định cách sắp xếp sản phẩm
+        switch ($sort) {
+            case 'price_asc':
+                // Sắp xếp sản phẩm theo giá từ thấp đến cao
+                $products = Product::orderBy('price', 'asc')->paginate(self::PER_PAGES);
+                break;
+            case 'price_desc':
+                // Sắp xếp sản phẩm theo giá từ cao đến thấp
+                $products = Product::orderBy('price', 'desc')->paginate(self::PER_PAGES);
+                break;
+            case 'best_selling':
+                // Sắp xếp sản phẩm theo số lượng bán được (cần có trường 'sold' trong bảng sản phẩm)
+                // Thực hiện sắp xếp theo số lượng bán giảm dần
+                $products = Product::orderBy('sold', 'desc')->paginate(self::PER_PAGES);
+                break;
+            case 'latest':
+            default:
+                // Sắp xếp sản phẩm theo thời gian tạo, lấy sản phẩm mới nhất trước
+                $products = Product::latest()->paginate(self::PER_PAGES);
+                break;
+        }
 
         // Trả về view với các danh mục và sản phẩm
-        return view('frontend.pages.products', compact('categories', 'products'));
+        return view('frontend.pages.products', compact('categories', 'products', 'sort'));
     }
 
     /**
