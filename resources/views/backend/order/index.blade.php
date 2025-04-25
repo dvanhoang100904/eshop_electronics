@@ -76,7 +76,12 @@
                                     </span>
                                 </td>
                                 <td>{{ $order->payment->method }}</td>
-                                <td class="text-center">{{ $order->user->phone }}</td>
+                                <td>
+                                    {{ $order->shippingAddress->phone }}
+                                    <br>
+                                    <small class="text-muted">(SĐT người đặt: {{ $order->user->phone }})</small>
+                                </td>
+
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('order.show', $order->order_id) }}?page={{ request()->get('page') }}"
@@ -107,36 +112,7 @@
             </div>
 
             {{-- Pagination --}}
-            @if ($orders->hasPages())
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <div class="text-muted">
-                        Hiển thị từ <strong>{{ $orders->firstItem() }}</strong> đến
-                        <strong>{{ $orders->lastItem() }}</strong>
-                        trong tổng số <strong>{{ $orders->total() }}</strong> người dùng
-                    </div>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item {{ $orders->onFirstPage() ? 'disabled' : '' }}">
-                                <a class="page-link" href="{{ $orders->previousPageUrl() }}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-
-                            @foreach ($orders->getUrlRange(1, $orders->lastPage()) as $page => $url)
-                                <li class="page-item {{ $page == $orders->currentPage() ? 'active' : '' }}">
-                                    <a class="page-link" href="{{ $url }}">{{ $page }}</a>
-                                </li>
-                            @endforeach
-
-                            <li class="page-item {{ $orders->hasMorePages() ? '' : 'disabled' }}">
-                                <a class="page-link" href="{{ $orders->nextPageUrl() }}" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            @endif
+            @include('backend.layouts.paginate', ['pagination' => $orders])
         </div>
     </div>
 @endsection

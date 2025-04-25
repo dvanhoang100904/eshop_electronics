@@ -90,18 +90,19 @@
     <!-- Thông tin khách hàng -->
     <div class="card mb-4 shadow-sm">
         <div class="card-header bg-light fw-bold">
-            <i class="fas fa-user me-2"></i> Thông tin khách hàng
+            <i class="fas fa-user me-2"></i> Thông tin giao hàng
         </div>
         <div class="card-body row">
             <div class="col-md-6">
                 <p><strong>Tên khách hàng:</strong> {{ $order->shippingAddress->name }}</p>
-                <p><strong>Email:</strong> {{ $order->user->email }}</p>
-                <div class="col-md-6">
-                    <p><strong>Số điện thoại:</strong> {{ $order->shippingAddress->phone }}</p>
-                    <p><strong>Địa chỉ giao hàng:</strong> {{ Str::limit($order->shippingAddress->address, 30) }}</p>
-                </div>
+                <p><strong>Email người nhận:</strong> {{ $order->shippingAddress->email }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Số điện thoại:</strong> {{ $order->shippingAddress->phone }}</p>
+                <p><strong>Địa chỉ giao hàng:</strong> {{ Str::limit($order->shippingAddress->address, 40) }}</p>
             </div>
         </div>
+
 
         <!-- Danh sách sản phẩm -->
         <div class="card mb-4 shadow-sm">
@@ -112,7 +113,7 @@
                 <table class="table table-bordered align-middle">
                     <thead class="table-light text-center">
                         <tr>
-                            <th>Tên</th>
+                            <th>Sản phẩm</th>
                             <th>Hình ảnh</th>
                             <th>Số lượng</th>
                             <th>Đơn giá</th>

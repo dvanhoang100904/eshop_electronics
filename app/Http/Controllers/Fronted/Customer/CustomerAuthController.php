@@ -93,6 +93,9 @@ class CustomerAuthController extends Controller
      */
     public function authRegister(RegisterRequest $request)
     {
+        // Lưu lại session_id trước khi đăng ký
+        $session_id = $request->session()->getId();
+
         // Tạo mới người dùng và gán vai trò khách hàng (role_id = 2)
         $user = User::create([
             'name' => $request->name,
@@ -104,6 +107,35 @@ class CustomerAuthController extends Controller
 
         // Đăng nhập ngay lập tức sau khi đăng ký
         Auth::login($user);
+
+        // Tìm giỏ hàng của session (guest)
+        $guestCart = Cart::where('session_id', $session_id)
+            ->whereNull('user_id')
+            ->first();
+
+        if ($guestCart) {
+            // Tìm hoặc tạo giỏ hàng của user
+            $userCart = Cart::firstOrCreate(['user_id' => $user->user_id]);
+
+            foreach ($guestCart->cartItems as $item) {
+                $existingItem = $userCart->cartItems()
+                    ->where('product_id', $item->product_id)
+                    ->first();
+
+                if ($existingItem) {
+                    $existingItem->increment('quantity', $item->quantity);
+                } else {
+                    $userCart->cartItems()->create([
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                    ]);
+                }
+            }
+
+            // Xóa giỏ hàng guest
+            $guestCart->cartItems()->delete();
+            $guestCart->delete();
+        }
 
         // Chuyển hướng người dùng tới trang chủ với thông báo thành công
         return redirect()->route('customer.index')->with('success', 'Chào mừng bạn, ' . $user->name . '! Đăng ký thành công.');

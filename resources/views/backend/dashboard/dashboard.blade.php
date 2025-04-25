@@ -75,5 +75,21 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3 mb-4">
+            <div class="card stat-card bg-danger-gradient">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="stat-title">Slide</h6>
+                            <h3 class="stat-value">{{ $totalSlides }}</h3>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
