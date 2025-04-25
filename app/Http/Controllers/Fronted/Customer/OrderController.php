@@ -70,6 +70,7 @@ class OrderController extends Controller
             $shippingAddress = ShippingAddress::create([
                 'user_id' => $user->user_id,
                 'name' => $request->name,
+                'email' => $request->email,
                 'phone' => $request->phone,
                 'address' => $request->address,
             ]);

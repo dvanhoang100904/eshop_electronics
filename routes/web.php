@@ -131,7 +131,7 @@ Route::get('/tim-kiem', [CustomerProductController::class, 'search'])->name('cus
 Route::get('/danh-muc/{slug}', [CustomerCategoryController::class, 'showProductsByCategory'])->name('customer.category.products');
 
 // cart
-route::middleware(['web'])->group(function () { 
+route::middleware(['web'])->group(function () {
     route::get('/gio-hang', [CartController::class, 'index'])->name('customer.cart');
     Route::post('/them-vao-gio-hang', [CartController::class, 'addToCart'])->name('customer.addToCart');
     Route::post('/gio-hang/update', [CartController::class, 'updateCart'])->name('customer.updateCart');
