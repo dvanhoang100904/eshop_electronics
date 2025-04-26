@@ -29,7 +29,8 @@
             <div class="row">
                 <!-- image -->
                 <div class="col-lg-6">
-                    <img src="{{ asset('storage/' . $product->image) }}" class="d-block w-100" alt="{{ $product->name }}" />
+                    <img src="{{ asset('storage/' . $product->image) }}"
+                        class="d-block w-100 object-fit-cover rounded shadow-sm" alt="{{ $product->name }}" />
                 </div>
                 <div class="col-lg-6">
                     <!-- name -->

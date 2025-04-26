@@ -90,6 +90,7 @@ class CategoryController extends Controller
     public function edit($category_id)
     {
         // Tìm danh mục theo ID
+        $category = Category::findOrFail($category_id);
         return view('backend.category.edit', compact('category'));
     }
 
