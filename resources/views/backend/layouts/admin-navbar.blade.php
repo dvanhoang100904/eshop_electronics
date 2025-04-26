@@ -32,10 +32,9 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <form action="{{ route('admin.logout') }}" method="POST"
-                                        onsubmit="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
+                                    <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
                                         @csrf
-                                        <button type="submit" class="dropdown-item">
+                                        <button type="submit" class="dropdown-item" id="logout-button">
                                             <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
                                         </button>
                                     </form>
@@ -55,3 +54,26 @@
         </div>
     </div>
 </nav>
+@push('scripts')
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function(event) {
+            event.preventDefault(); // Ngừng hành động mặc định của nút submit
+
+            // Hiển thị SweetAlert xác nhận
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn đăng xuất không?',
+                text: 'Đăng xuất sẽ đưa bạn trở lại trang đăng nhập.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Đăng xuất',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logout-form').submit(); // Nếu xác nhận, gửi form
+                }
+            });
+        });
+    </script>
+@endpush
