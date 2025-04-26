@@ -32,7 +32,8 @@
                                 <a class="text-dark text-decoration-none"
                                     href="{{ route('customer.product.show', $product->slug) }}">
                                     <img src="{{ asset('storage/' . $product->image) }}"
-                                        class="card-img-top object-fit-cover" alt="{{ $product->name }}" loading="lazy">
+                                        class="card-img-top img-fluid w-100 h-100 object-fit-cover"
+                                        alt="{{ $product->name }}" loading="lazy">
                                 </a>
 
                             </div>
