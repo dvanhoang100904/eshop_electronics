@@ -61,10 +61,9 @@
                                             <hr class="dropdown-divider" />
                                         </li>
                                         <li>
-                                            <form action="{{ route('customer.logout') }}" method="POST"
-                                                onsubmit="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
+                                            <form action="{{ route('customer.logout') }}" method="POST" id="logout-form">
                                                 @csrf
-                                                <button type="submit" class="dropdown-item">
+                                                <button type="button" class="dropdown-item" id="logout-button">
                                                     <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
                                                 </button>
                                             </form>
@@ -98,3 +97,33 @@
         </div>
     </div>
 </header>
+@push('scripts')
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function(event) {
+            //event.preventDefault(); // Ngừng hành động mặc định của nút submit
+
+            // Hiển thị SweetAlert xác nhận
+            Swal.fire({
+                title: 'Bạn muốn đăng xuất?',
+                text: 'Chúng tôi sẽ đăng xuất bạn khỏi tài khoản.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Đăng xuất',
+                cancelButtonText: 'Ở lại'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Đang đăng xuất...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            document.getElementById('logout-form').submit();
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+@endpush
