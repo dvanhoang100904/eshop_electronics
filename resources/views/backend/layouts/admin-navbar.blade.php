@@ -34,7 +34,7 @@
                                 <li>
                                     <form action="{{ route('admin.logout') }}" method="POST" id="logout-form">
                                         @csrf
-                                        <button type="submit" class="dropdown-item" id="logout-button">
+                                        <button type="button" class="dropdown-item" id="logout-button">
                                             <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
                                         </button>
                                     </form>
@@ -57,12 +57,12 @@
 @push('scripts')
     <script>
         document.getElementById('logout-button').addEventListener('click', function(event) {
-            event.preventDefault(); // Ngừng hành động mặc định của nút submit
+            //event.preventDefault(); // Ngừng hành động mặc định của nút submit
 
             // Hiển thị SweetAlert xác nhận
             Swal.fire({
-                title: 'Bạn có chắc chắn muốn đăng xuất không?',
-                text: 'Đăng xuất sẽ đưa bạn trở lại trang đăng nhập.',
+                title: 'Xác nhận đăng xuất',
+                text: 'Bạn sẽ được chuyển đến trang đăng nhập.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -71,7 +71,14 @@
                 cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('logout-form').submit(); // Nếu xác nhận, gửi form
+                    Swal.fire({
+                        title: 'Đang đăng xuất...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                            document.getElementById('logout-form').submit();
+                        }
+                    });
                 }
             });
         });
