@@ -1,124 +1,129 @@
 # Eshop Electronics - Laravel Project
 
-Đây là source code của một website thương mại điện tử bán thiết bị điện tử, được xây dựng bằng Laravel.
+This is the source code of an e-commerce website selling electronics, built with Laravel.
 
 ---
 
-## Yêu cầu môi trường
+## Environmental requirements
 - PHP >= 8.2
 - Composer
 - MySQL >= 5.7 / MariaDB >= 10.3
 
-## Hướng dẫn cài đặt
+## Installation instructions
 
-### 1. Clone source và checkout đúng nhánh
+### 1. Clone source and checkout correct branch
 
-> **Lưu ý:** Dự án nằm ở nhánh `laravel-project`, bạn cần checkout nhánh này sau khi clone.
+> **Note:** The project is in the `laravel-project` branch, you need to checkout this branch after cloning.
 
-**Các bước thực hiện:**
+**Steps to follow:**
 
-1. Mở Git Bash.
-2. Clone repository về máy tính:
+1. Open Git Bash.
+2. Clone repository to computer:
     ```bash
     git clone https://github.com/dvanhoang100904/eshop_electronics.git
     ```
-3. Di chuyển vào thư mục dự án:
+3. Move to the project folder:
     ```bash
     cd eshop_electronics
     ```
-4. Checkout vào nhánh `laravel-project`:
+4. Checkout into the `laravel-project` branch:
     ```bash
     git checkout laravel-project
     ```
 
-### 2. Cấu hình môi trường `.env`
+### 2. Configure the `.env` environment
 
-1. Cài đặt tất cả dependencies của Laravel:
+1. Install all Laravel dependencies:
     ```bash
     composer install
     ```
-2. Sao chép file `.env.example` thành `.env`:
+2. Copy the `.env.example` file to `.env`:
     ```bash
     cp .env.example .env
     ```
-3. Tạo key cho ứng dụng Laravel:
+3. Generate key for Laravel application:
     ```bash
     php artisan key:generate
     ```
 
-### 3. Tạo storage link (nếu có hình ảnh)
+### 3. Create storage link (if there is a picture)
 
-1. Tạo storage link:
+1. Create storage link:
     ```bash
     php artisan storage:link
     ```
 
-### 4. Các câu lệnh để tạo bảng và xóa bảng và tạo dữ liệu mẫu
+### 4. Statements to create and delete tables and create sample data
 
-1. Chạy lệnh migrate để tạo bảng và seed dữ liệu mẫu:
+1. Run the migrate command to create the table and seed sample data:
    
-   Tạo bảng:
+   Create table:
     ```bash
     php artisan migrate
     ```
     
-   Xóa bảng:
+   Delete table:
    ```bash
     php artisan migrate:rollback
     ```
-   Hoặc
+   Or
    ```bash
     php artisan migrate:reset
     ```
     
-   Tạo dữ liệu mẫu:
+   Create sample data:
     ```bash
     php artisan db:seed
     ```
+    
+   Create table + sample data:
+    ```bash
+    php artisan migrate --seed
+    ```
 
-   Xóa bảng + tạo bảng:
+   Delete table + create table:
     ```bash
     php artisan migrate:refresh
     ```
     
-   Xóa bảng + tạo bảng + tạo dữ liệu mẫu
+   Delete table + create table + create sample data
     ```bash
     php artisan migrate:refresh --seed
     ```
 
-### 5. Chạy ứng dụng
+### 5. Run the application
 
-1. Chạy ứng dụng Laravel:
+1. Run the Laravel application:
     ```bash
     php artisan serve
     ```
     
-Sau khi thực hiện tất cả các bước trên, bạn có thể truy cập ứng dụng tại địa chỉ [http://localhost:8000](http://localhost:8000).
+After completing all the above steps, you can access the application at: [http://localhost:8000](http://localhost:8000).
 
-### 🧪 Tài khoản đăng nhập thử nghiệm admin
+### Admin test login account
 
 http://127.0.0.1:8000/admin/login
 
 **Admin**
 - Email: admin@gmail.com
-- Mật khẩu: 123456
+- Password: 123456
 
 ---
 
-##  Cấu trúc thư mục chính
+## Main directory structure
 
-- `app/` - Code backend chính của ứng dụng Laravel
-  - `app/Models/` - Các model đại diện cho bảng trong cơ sở dữ liệu
-  - `app/Http/Controllers/` - Các controller xử lý request và trả về response
-  - `app/Http/Middleware/` - Các middleware xử lý logic trước/sau khi request được xử lý
-  - `app/Http/Requests/` - Các form request dùng để validate dữ liệu đầu vào một cách rõ ràng và tách biệt
-- `database/migrations/` - Các file migration định nghĩa cấu trúc bảng cơ sở dữ liệu
-- `database/seeders/` - Các file seed để thêm dữ liệu mẫu vào database
-- `resources/views/` - Giao diện frontend viết bằng Blade template
-- `routes/web.php` - Định nghĩa các route cho ứng dụng web
+- `app/` - Main backend code of Laravel application
+  - `app/Models/` - Models represent tables in a database
+  - `app/Http/Controllers/` - Controllers process requests and return responses
+  - `app/Http/Middleware/` - Middleware handles logic before/after the request is processed
+  - `app/Http/Requests/` - Form requests are used to validate input data in a clear and separate manner
+- `database/migrations/` - Migration files define the database table structure
+- `database/seeders/` - Seed files to add sample data to the database
+- `resources/views/` - Frontend interface written in Blade template
+- `routes/web.php` - Define routes for web applications
 
 ---
 
-## Liên hệ
+## Contact
 
-- Tác giả: [Đào Văn Hoàng](https://github.com/dvanhoang100904)
+- Author: [Dao Van Hoang](https://github.com/dvanhoang100904)
